@@ -134,3 +134,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# local embedded database (PGlite)
+.data/
+.vercel
+
+# next.js
+next-env.d.ts

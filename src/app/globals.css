@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-newsreader);
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: #faf7f2;
+  color: #1c1917;
+}
