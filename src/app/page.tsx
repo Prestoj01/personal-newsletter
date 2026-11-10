@@ -13,7 +13,7 @@ export default function Home() {
         <h1 className="mx-auto max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-ink sm:text-6xl">
           The news you care about.
           <br />
-          <em className="text-accent">Nothing else.</em>
+          <span className="text-accent">Nothing else.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted">
           Tell us your favorite things and hobbies, pick how often you want a new edition, and get a personal newsletter with the latest on exactly those topics.

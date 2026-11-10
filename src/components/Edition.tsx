@@ -48,7 +48,7 @@ export function Edition({ sections, frequency, date, number, asOf }: Props) {
               {s.emoji} {s.topic}
             </h3>
             {s.articles.length === 0 ? (
-              <p className="py-3 font-sans text-sm italic text-muted">No matching headlines in this edition&apos;s news.</p>
+              <p className="py-3 font-sans text-sm text-muted">No matching headlines in this edition&apos;s news.</p>
             ) : (
               <ul className="divide-y divide-line/60">
                 {s.articles.map((a) => (
