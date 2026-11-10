@@ -44,7 +44,7 @@ export function chipClass(on: boolean) {
   return `rounded-full border px-3.5 py-1.5 text-sm transition ${
     on
       ? "border-accent bg-accent text-white"
-      : "border-line-strong bg-surface text-ink/80 hover:border-muted disabled:cursor-not-allowed disabled:opacity-40"
+      : "border-line-strong bg-surface text-ink hover:border-muted disabled:cursor-not-allowed disabled:opacity-40"
   }`;
 }
 
