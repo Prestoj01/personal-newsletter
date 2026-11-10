@@ -31,7 +31,7 @@ export function Button({
 }
 
 export function Card({ className = "", ...props }: React.HTMLAttributes<HTMLElement>) {
-  return <section className={`rounded-card border border-line bg-surface shadow-sm ${className}`} {...props} />;
+  return <section className={`rounded-card border border-line bg-surface ${className}`} {...props} />;
 }
 
 /** Small uppercase label above a group of content. */
@@ -43,7 +43,7 @@ export function Eyebrow({ className = "", ...props }: React.HTMLAttributes<HTMLP
 export function chipClass(on: boolean) {
   return `rounded-full border px-3.5 py-1.5 text-sm transition ${
     on
-      ? "border-accent bg-accent text-white shadow-sm"
+      ? "border-accent bg-accent text-white"
       : "border-line-strong bg-surface text-ink/80 hover:border-muted disabled:cursor-not-allowed disabled:opacity-40"
   }`;
 }

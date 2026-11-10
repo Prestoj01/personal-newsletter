@@ -13,12 +13,9 @@ export function PreviewPanel({ topics, frequency }: { topics: string[]; frequenc
   const sections = useMemo(() => (ready ? buildSections(sources, topics, frequency) : []), [ready, sources, topics, frequency]);
 
   return (
-    <div className="overflow-hidden rounded-card border border-line bg-surface shadow-sm">
-      <div className="flex items-center gap-1.5 border-b border-line px-4 py-2.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-        <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-        <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-        <span className="ml-3 text-xs font-medium text-muted">Live preview</span>
+    <div className="overflow-hidden rounded-card border border-line bg-surface">
+      <div className="border-b border-line px-4 py-2.5">
+        <span className="text-xs font-medium text-muted">Live preview</span>
       </div>
       <div className="h-[640px] overflow-y-auto bg-paper p-4 sm:p-6">
         {error ? (

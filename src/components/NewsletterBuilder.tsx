@@ -59,7 +59,7 @@ export function NewsletterBuilder() {
         </Step>
 
         <Step n={3} title={existing ? "Save your changes" : "Start reading"}>
-          <Button size="lg" onClick={start} disabled={topics.length === 0} className="w-full shadow-sm sm:w-auto">
+          <Button size="lg" onClick={start} disabled={topics.length === 0} className="w-full sm:w-auto">
             {existing ? "Update my newsletter →" : "Create my newsletter →"}
           </Button>
           <p className="mt-3 text-xs text-muted">

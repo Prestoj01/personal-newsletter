@@ -23,10 +23,9 @@ export default function Home() {
       <NewsletterBuilder />
 
       <section className="mt-20 grid gap-6 sm:grid-cols-3">
-        {HOW_IT_WORKS.map((step, i) => (
+        {HOW_IT_WORKS.map((step) => (
           <div key={step.title} className="border-t-2 border-ink pt-4">
-            <p className="font-serif text-4xl text-accent">{String(i + 1).padStart(2, "0")}</p>
-            <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
+            <h3 className="text-lg font-semibold">{step.title}</h3>
             <p className="mt-1 text-muted">{step.body}</p>
           </div>
         ))}

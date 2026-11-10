@@ -24,7 +24,7 @@ export function Edition({ sections, frequency, date, number, asOf }: Props) {
   const now = new Date(asOf).getTime();
   const withNews = sections.filter((s) => s.articles.length);
   return (
-    <article className="mx-auto max-w-2xl rounded-card border border-line bg-surface font-serif text-ink shadow-sm">
+    <article className="mx-auto max-w-2xl rounded-card border border-line bg-surface font-serif text-ink">
       <header className="border-b-[3px] border-double border-ink px-6 pb-5 pt-8 sm:px-9">
         <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
           {frequencyInfo(frequency).label} edition{number ? ` · No. ${number}` : ""}
