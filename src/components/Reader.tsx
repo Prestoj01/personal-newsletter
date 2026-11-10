@@ -108,7 +108,7 @@ export function Reader() {
       <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start">
         <Card className="p-5">
           <Eyebrow>Next edition</Eyebrow>
-          <p className="mt-1 font-serif text-xl">{fmt(slot.next)}</p>
+          <p className="mt-1 font-serif text-xl text-balance">{fmt(slot.next)}</p>
           <p className="text-sm text-muted">{untilText(slot.next)}</p>
           <Button
             variant="secondary"

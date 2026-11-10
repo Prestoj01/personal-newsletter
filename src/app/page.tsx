@@ -11,9 +11,8 @@ export default function Home() {
     <div className="mx-auto max-w-6xl px-6">
       <section className="py-10 text-center sm:py-14">
         <h1 className="mx-auto max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl">
-          The latest on your teams, hobbies and interests.
-          <br />
-          <span className="text-accent">Nothing else.</span>
+          <span className="block">The latest on your teams, hobbies and interests.</span>
+          <span className="block text-accent">Nothing else.</span>
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-lg text-muted">
           Tell us your favorite things and hobbies, pick how often you want a new edition, and get a personal newsletter with the latest on exactly those topics.

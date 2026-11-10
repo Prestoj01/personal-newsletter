@@ -55,7 +55,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
               <ul className="divide-y divide-line/60">
                 {s.articles.map((a) => (
                   <li key={a.url} className="py-3">
-                    <a href={a.url} target="_blank" rel="noreferrer" className="text-lg font-semibold leading-snug hover:text-accent">
+                    <a href={a.url} target="_blank" rel="noreferrer" className="text-lg font-semibold leading-snug text-pretty hover:text-accent">
                       {a.title}
                     </a>
                     <p className="mt-1 font-sans text-xs text-muted">

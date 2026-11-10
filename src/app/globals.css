@@ -37,3 +37,16 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
 }
+
+@layer base {
+  /* Even line lengths for headings; no single-word last lines in body text. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li {
+    text-wrap: pretty;
+  }
+}
