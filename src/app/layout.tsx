@@ -20,24 +20,24 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Link href="/" className="font-serif text-2xl font-bold tracking-tight">
             {APP_NAME}
           </Link>
-          <nav className="flex items-center gap-5 text-sm text-stone-600">
-            <Link href="/read/" className="font-medium hover:text-stone-900">
+          <nav className="flex items-center gap-5 text-sm text-muted">
+            <Link href="/read/" className="font-medium hover:text-ink">
               My edition
             </Link>
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-stone-900">
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-ink">
               GitHub ↗
             </a>
           </nav>
         </header>
         <main className="flex-1">{children}</main>
-        <footer className="mt-16 border-t border-stone-200">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-stone-500 sm:flex-row sm:justify-between">
+        <footer className="mt-16 border-t border-line">
+          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-muted sm:flex-row sm:justify-between">
             <p>
               {APP_NAME} is free and open source. Headlines via Google News; every story links to its original publisher.
             </p>
             <p>
               Built with Next.js, GitHub Actions &amp; GitHub Pages ·{" "}
-              <a href={GITHUB_URL} className="underline hover:text-stone-800">
+              <a href={GITHUB_URL} className="underline hover:text-ink">
                 GitHub
               </a>
             </p>

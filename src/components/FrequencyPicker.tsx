@@ -19,12 +19,12 @@ export function FrequencyPicker({ value, onChange }: Props) {
             role="radio"
             aria-checked={on}
             onClick={() => onChange(f.id)}
-            className={`rounded-xl border p-4 text-left transition ${
-              on ? "border-orange-700 bg-orange-50 ring-2 ring-orange-700/20" : "border-stone-300 bg-white hover:border-stone-500"
+            className={`rounded-control border p-4 text-left transition ${
+              on ? "border-accent bg-accent-soft ring-2 ring-accent/20" : "border-line-strong bg-surface hover:border-muted"
             }`}
           >
-            <div className="font-semibold text-stone-900">{f.label}</div>
-            <div className="mt-0.5 text-xs text-stone-500">{f.description}</div>
+            <div className="font-semibold text-ink">{f.label}</div>
+            <div className="mt-0.5 text-xs text-muted">{f.description}</div>
           </button>
         );
       })}

@@ -24,19 +24,19 @@ export function Edition({ sections, frequency, date, number, asOf }: Props) {
   const now = new Date(asOf).getTime();
   const withNews = sections.filter((s) => s.articles.length);
   return (
-    <article className="mx-auto max-w-2xl rounded-2xl border border-stone-200 bg-white font-serif text-stone-900 shadow-sm">
-      <header className="border-b-[3px] border-double border-stone-900 px-6 pb-5 pt-8 sm:px-9">
-        <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-orange-700">
+    <article className="mx-auto max-w-2xl rounded-card border border-line bg-surface font-serif text-ink shadow-sm">
+      <header className="border-b-[3px] border-double border-ink px-6 pb-5 pt-8 sm:px-9">
+        <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
           {frequencyInfo(frequency).label} edition{number ? ` · No. ${number}` : ""}
         </p>
         <h2 className="mt-1.5 text-4xl font-bold leading-tight">{APP_NAME}</h2>
-        <p className="mt-2 font-sans text-sm text-stone-500">
+        <p className="mt-2 font-sans text-sm text-muted">
           {date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
         </p>
       </header>
 
       {withNews.length > 0 && (
-        <p className="px-6 pt-4 font-sans text-sm text-stone-500 sm:px-9">
+        <p className="px-6 pt-4 font-sans text-sm text-muted sm:px-9">
           In this issue: {withNews.map((s) => `${s.emoji} ${s.topic}`).join("  ·  ")}
         </p>
       )}
@@ -44,19 +44,19 @@ export function Edition({ sections, frequency, date, number, asOf }: Props) {
       <div className="px-6 pb-8 sm:px-9">
         {sections.map((s) => (
           <section key={s.topic} className="pt-6">
-            <h3 className="border-b border-stone-200 pb-2 font-sans text-xs font-bold uppercase tracking-[0.15em] text-orange-700">
+            <h3 className="border-b border-line pb-2 font-sans text-xs font-bold uppercase tracking-[0.15em] text-accent">
               {s.emoji} {s.topic}
             </h3>
             {s.articles.length === 0 ? (
-              <p className="py-3 font-sans text-sm italic text-stone-500">No matching headlines in this edition&apos;s news.</p>
+              <p className="py-3 font-sans text-sm italic text-muted">No matching headlines in this edition&apos;s news.</p>
             ) : (
-              <ul className="divide-y divide-stone-100">
+              <ul className="divide-y divide-line/60">
                 {s.articles.map((a) => (
                   <li key={a.url} className="py-3">
-                    <a href={a.url} target="_blank" rel="noreferrer" className="text-lg font-semibold leading-snug hover:text-orange-700">
+                    <a href={a.url} target="_blank" rel="noreferrer" className="text-lg font-semibold leading-snug hover:text-accent">
                       {a.title}
                     </a>
-                    <p className="mt-1 font-sans text-xs text-stone-500">
+                    <p className="mt-1 font-sans text-xs text-muted">
                       {a.source} · {relativeTime(a.publishedAt, now)}
                     </p>
                   </li>
@@ -67,7 +67,7 @@ export function Edition({ sections, frequency, date, number, asOf }: Props) {
               href={moreCoverageUrl(s.topic)}
               target="_blank"
               rel="noreferrer"
-              className="mt-1 inline-block font-sans text-xs font-medium text-orange-700 hover:underline"
+              className="mt-1 inline-block font-sans text-xs font-medium text-accent hover:underline"
             >
               More on {s.topic} on Google News →
             </a>

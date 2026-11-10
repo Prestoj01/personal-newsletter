@@ -7,16 +7,17 @@ import { loadPrefs, savePrefs } from "@/lib/storage";
 import { FrequencyPicker } from "./FrequencyPicker";
 import { PreviewPanel } from "./PreviewPanel";
 import { TopicPicker } from "./TopicPicker";
+import { Button, Card } from "./ui";
 
 function Step({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-      <h2 className="mb-5 flex items-center gap-3 font-serif text-2xl text-stone-900">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-900 font-sans text-sm font-semibold text-white">{n}</span>
+    <Card className="p-6 sm:p-8">
+      <h2 className="mb-5 flex items-center gap-3 font-serif text-2xl text-ink">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink font-sans text-sm font-semibold text-white">{n}</span>
         {title}
       </h2>
       {children}
-    </section>
+    </Card>
   );
 }
 
@@ -58,15 +59,10 @@ export function NewsletterBuilder() {
         </Step>
 
         <Step n={3} title={existing ? "Save your changes" : "Start reading"}>
-          <button
-            type="button"
-            onClick={start}
-            disabled={topics.length === 0}
-            className="w-full rounded-full bg-orange-700 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-orange-800 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-          >
+          <Button size="lg" onClick={start} disabled={topics.length === 0} className="w-full shadow-sm sm:w-auto">
             {existing ? "Update my newsletter →" : "Create my newsletter →"}
-          </button>
-          <p className="mt-3 text-xs text-stone-500">
+          </Button>
+          <p className="mt-3 text-xs text-muted">
             {topics.length === 0
               ? "Pick at least one topic to continue."
               : "No account or email needed. Your picks are saved in this browser, and a new edition appears here on your schedule."}

@@ -10,13 +10,13 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-6">
       <section className="py-12 text-center sm:py-20">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-orange-700">Free · No account · No email</p>
-        <h1 className="mx-auto mt-4 max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-stone-900 sm:text-6xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">Free · No account · No email</p>
+        <h1 className="mx-auto mt-4 max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-ink sm:text-6xl">
           The news you care about.
           <br />
-          <em className="text-orange-700">Nothing else.</em>
+          <em className="text-accent">Nothing else.</em>
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-stone-600">
+        <p className="mx-auto mt-6 max-w-xl text-lg text-muted">
           Tell us your favorite things and hobbies, pick how often you want a new edition, and get a personal newsletter with the latest on exactly those topics.
         </p>
       </section>
@@ -25,10 +25,10 @@ export default function Home() {
 
       <section className="mt-20 grid gap-6 sm:grid-cols-3">
         {HOW_IT_WORKS.map((step, i) => (
-          <div key={step.title} className="border-t-2 border-stone-900 pt-4">
-            <p className="font-serif text-4xl text-orange-700">{String(i + 1).padStart(2, "0")}</p>
+          <div key={step.title} className="border-t-2 border-ink pt-4">
+            <p className="font-serif text-4xl text-accent">{String(i + 1).padStart(2, "0")}</p>
             <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
-            <p className="mt-1 text-stone-600">{step.body}</p>
+            <p className="mt-1 text-muted">{step.body}</p>
           </div>
         ))}
       </section>

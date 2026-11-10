@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MAX_TOPICS } from "@/lib/config";
+import { Eyebrow, buttonClass, chipClass, inputClass } from "./ui";
 import { CATALOG, TOPIC_GROUPS, emojiFor, isChipTopic, presetFor } from "@/lib/topics";
 
 interface Props {
@@ -37,7 +38,7 @@ export function TopicPicker({ selected, onChange }: Props) {
     <div className="space-y-6">
       {TOPIC_GROUPS.map((group) => (
         <div key={group.name}>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-stone-500">{group.name}</h3>
+          <Eyebrow className="mb-2">{group.name}</Eyebrow>
           <div className="flex flex-wrap gap-2">
             {group.topics.map((t) => {
               const on = selectedKeys.has(t.label.toLowerCase());
@@ -48,11 +49,7 @@ export function TopicPicker({ selected, onChange }: Props) {
                   onClick={() => toggle(t.label)}
                   disabled={!on && atLimit}
                   aria-pressed={on}
-                  className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
-                    on
-                      ? "border-orange-700 bg-orange-700 text-white shadow-sm"
-                      : "border-stone-300 bg-white text-stone-700 hover:border-stone-500 disabled:cursor-not-allowed disabled:opacity-40"
-                  }`}
+                  className={chipClass(on)}
                 >
                   <span className="mr-1.5">{t.emoji}</span>
                   {t.label}
@@ -64,7 +61,7 @@ export function TopicPicker({ selected, onChange }: Props) {
       ))}
 
       <div>
-        <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-stone-500">Something else?</h3>
+        <Eyebrow className="mb-2">Something else?</Eyebrow>
         <form onSubmit={addCustom} className="flex gap-2">
           <input
             value={custom}
@@ -72,12 +69,12 @@ export function TopicPicker({ selected, onChange }: Props) {
             maxLength={60}
             list="topic-suggestions"
             placeholder="e.g. Taylor Swift, Lakers, sourdough"
-            className="min-w-0 flex-1 rounded-full border border-stone-300 bg-white px-4 py-2 text-sm outline-none focus:border-orange-700 focus:ring-2 focus:ring-orange-700/20"
+            className={inputClass}
           />
           <button
             type="submit"
             disabled={atLimit || custom.trim().length < 2}
-            className="rounded-full border border-stone-800 px-4 py-2 text-sm font-medium text-stone-800 transition hover:bg-stone-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+            className={buttonClass("secondary", "sm")}
           >
             Add
           </button>
@@ -87,7 +84,7 @@ export function TopicPicker({ selected, onChange }: Props) {
             ))}
           </datalist>
         </form>
-        <p className="mt-2 text-xs text-stone-500">
+        <p className="mt-2 text-xs text-muted">
           Start typing for 100+ suggestions (teams, companies, people, hobbies). Anything else is matched against thousands of fresh headlines, so very niche topics may be quiet some days.
         </p>
         {customTopics.length > 0 && (
@@ -97,7 +94,7 @@ export function TopicPicker({ selected, onChange }: Props) {
                 key={t}
                 type="button"
                 onClick={() => toggle(t)}
-                className="rounded-full border border-orange-700 bg-orange-700 px-3.5 py-1.5 text-sm text-white"
+                className={chipClass(true)}
                 aria-label={`Remove ${t}`}
               >
                 {emojiFor(t)} {t} <span className="ml-1 opacity-70">×</span>
@@ -107,7 +104,7 @@ export function TopicPicker({ selected, onChange }: Props) {
         )}
       </div>
 
-      <p className="text-sm text-stone-500">
+      <p className="text-sm text-muted">
         {selected.length} of {MAX_TOPICS} selected{atLimit && " — that's the max"}
       </p>
     </div>

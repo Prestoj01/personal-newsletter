@@ -8,6 +8,7 @@ import { currentEdition, frequencyInfo, fromDateKey, type EditionSlot } from "@/
 import { clearAll, loadEditions, loadPrefs, saveEdition, type Prefs, type StoredEdition } from "@/lib/storage";
 import { Edition } from "./Edition";
 import { useEditionSources } from "./useEditionSources";
+import { Button, Card, Eyebrow, buttonClass } from "./ui";
 
 const sameTopics = (a: string[], b: string[]) => a.length === b.length && a.every((t, i) => t === b[i]);
 
@@ -66,16 +67,16 @@ export function Reader() {
     return (
       <div className="mx-auto max-w-xl px-6 py-16 text-center">
         <h1 className="font-serif text-4xl">No newsletter yet</h1>
-        <p className="mt-4 text-stone-600">Pick your topics and how often you want a new edition. It only takes a few seconds.</p>
-        <Link href="/" className="mt-8 inline-block rounded-full bg-orange-700 px-6 py-3 font-semibold text-white hover:bg-orange-800">
+        <p className="mt-4 text-muted">Pick your topics and how often you want a new edition. It only takes a few seconds.</p>
+        <Link href="/" className={buttonClass("primary", "lg", "mt-8")}>
           Create my newsletter
         </Link>
       </div>
     );
   }
 
-  if (error) return <p className="py-24 text-center text-red-700">{error}</p>;
-  if (state.kind === "loading") return <p className="animate-pulse py-24 text-center font-serif text-2xl text-stone-500">Printing your edition…</p>;
+  if (error) return <p className="py-24 text-center text-danger">{error}</p>;
+  if (state.kind === "loading") return <p className="animate-pulse py-24 text-center font-serif text-2xl text-muted">Printing your edition…</p>;
 
   const { slot, editions } = state;
   const current = state.prefs;
@@ -92,7 +93,7 @@ export function Reader() {
     <div className="mx-auto grid max-w-6xl gap-8 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_280px]">
       <div>
         {shown.key !== slot.key && (
-          <button onClick={() => setViewing(slot.key)} className="mb-4 text-sm text-orange-700 underline">
+          <button onClick={() => setViewing(slot.key)} className="mb-4 text-sm text-accent underline">
             ← Back to the latest edition
           </button>
         )}
@@ -106,46 +107,45 @@ export function Reader() {
       </div>
 
       <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start">
-        <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-widest text-stone-500">Next edition</p>
+        <Card className="p-5">
+          <Eyebrow>Next edition</Eyebrow>
           <p className="mt-1 font-serif text-xl">{fmt(slot.next)}</p>
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-muted">
             {untilText(slot.next)} · {freq}
           </p>
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={() => downloadReminder(current.frequency, slot.next, window.location.href)}
-            className="mt-4 w-full rounded-full border border-stone-800 px-4 py-2 text-sm font-medium hover:bg-stone-800 hover:text-white"
+            className="mt-4 w-full"
           >
             📅 Add reminders to my calendar
-          </button>
-          <Link
-            href="/"
-            className="mt-2 block w-full rounded-full px-4 py-2 text-center text-sm font-medium text-orange-700 hover:bg-orange-50"
-          >
+          </Button>
+          <Link href="/" className={buttonClass("ghost", "sm", "mt-2 w-full")}>
             Edit topics or frequency
           </Link>
-        </div>
+        </Card>
 
         {editions.length > 1 && (
-          <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-stone-500">Past editions</p>
+          <Card className="p-5">
+            <Eyebrow className="mb-2">Past editions</Eyebrow>
             <ul className="space-y-1">
               {editions.map((e) => (
                 <li key={e.key}>
                   <button
                     onClick={() => setViewing(e.key)}
-                    className={`w-full rounded-lg px-3 py-2 text-left text-sm ${e.key === shown.key ? "bg-orange-50 font-semibold text-orange-800" : "hover:bg-stone-100"}`}
+                    className={`w-full rounded-lg px-3 py-2 text-left text-sm ${e.key === shown.key ? "bg-accent-soft font-semibold text-accent-strong" : "hover:bg-paper"}`}
                   >
                     {fmt(fromDateKey(e.key), { month: "short", day: "numeric", year: "numeric" })}
-                    <span className="ml-1 text-stone-500">· {frequencyInfo(e.frequency).label} No. {e.number}</span>
+                    <span className="ml-1 text-muted">· {frequencyInfo(e.frequency).label} No. {e.number}</span>
                   </button>
                 </li>
               ))}
             </ul>
-          </div>
+          </Card>
         )}
 
-        <button onClick={startOver} className="text-xs text-stone-500 underline hover:text-red-700">
+        <button onClick={startOver} className="text-xs text-muted underline hover:text-danger">
           Start over and clear my data
         </button>
       </aside>

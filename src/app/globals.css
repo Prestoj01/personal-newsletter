@@ -5,11 +5,32 @@
   --font-serif: var(--font-newsreader);
 }
 
+/*
+ * Design tokens. Every color and corner radius in the UI comes from here, so the whole
+ * look can be tuned in one place (e.g. bg-paper, text-muted, border-line, rounded-card).
+ */
+@theme {
+  --color-paper: #faf7f2;
+  --color-surface: #ffffff;
+  --color-ink: #1c1917;
+  --color-muted: #78716c;
+  --color-line: #e7e5e4;
+  --color-line-strong: #d6d3d1;
+  --color-accent: #c2410c;
+  --color-accent-strong: #9a3412;
+  --color-accent-soft: #fff7ed;
+  --color-danger: #b91c1c;
+  --color-success: #047857;
+
+  --radius-card: 1rem;
+  --radius-control: 0.75rem;
+}
+
 :root {
   color-scheme: light;
 }
 
 body {
-  background: #faf7f2;
-  color: #1c1917;
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
