@@ -116,7 +116,7 @@ export function Reader() {
             onClick={() => downloadReminder(current.frequency, slot.next, window.location.href)}
             className="mt-4 w-full"
           >
-            📅 Add reminders to my calendar
+            Add reminders to my calendar
           </Button>
           <Link href="/" className={buttonClass("ghost", "sm", "mt-2 w-full")}>
             Edit topics or frequency

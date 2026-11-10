@@ -70,7 +70,7 @@ export function Edition({ sections, frequency, date, number, asOf }: Props) {
               aria-label={`More on ${s.topic} on Google News`}
               className="mt-1 inline-block font-sans text-xs font-medium text-accent hover:underline"
             >
-              More on Google News →
+              More on Google News ↗
             </a>
           </section>
         ))}
