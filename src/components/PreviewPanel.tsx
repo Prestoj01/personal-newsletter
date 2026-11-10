@@ -6,7 +6,12 @@ import type { Frequency } from "@/lib/frequency";
 import { Edition } from "./Edition";
 import { useEditionSources } from "./useEditionSources";
 
-export function PreviewPanel({ topics, frequency }: { topics: string[]; frequency: Frequency }) {
+/** Shown before anyone picks a topic, so visitors see a real edition instead of an empty box. */
+const EXAMPLE_TOPICS = ["Artificial Intelligence", "NBA", "Cooking", "Space Exploration"];
+
+export function PreviewPanel({ topics: picked, frequency }: { topics: string[]; frequency: Frequency }) {
+  const isExample = picked.length === 0;
+  const topics = isExample ? EXAMPLE_TOPICS : picked;
   const { sources, error } = useEditionSources(topics);
   // Only render once the loaded headlines cover every selected topic (avoids flashing empty sections).
   const ready = sources !== null && topics.every((t) => sources.topics.has(t));
@@ -15,13 +20,13 @@ export function PreviewPanel({ topics, frequency }: { topics: string[]; frequenc
   return (
     <div className="overflow-hidden rounded-card border border-line bg-surface">
       <div className="border-b border-line px-4 py-2.5">
-        <span className="text-xs font-medium text-muted">Live preview</span>
+        <span className="text-xs font-medium text-muted">
+          {isExample ? "Example edition: pick topics to make it yours" : "Live preview"}
+        </span>
       </div>
       <div className="h-[640px] overflow-y-auto bg-paper p-4 sm:p-6">
         {error ? (
           <Empty title="Couldn't load headlines" body={error} />
-        ) : topics.length === 0 ? (
-          <Empty title="Your newsletter, before you start it." body="Pick a few topics and a real preview with the latest headlines will appear here." />
         ) : !ready ? (
           <Empty title="Gathering headlines…" />
         ) : (
