@@ -67,9 +67,10 @@ export function Edition({ sections, frequency, date, number, asOf }: Props) {
               href={moreCoverageUrl(s.topic)}
               target="_blank"
               rel="noreferrer"
+              aria-label={`More on ${s.topic} on Google News`}
               className="mt-1 inline-block font-sans text-xs font-medium text-accent hover:underline"
             >
-              More on {s.topic} on Google News →
+              More on Google News →
             </a>
           </section>
         ))}

@@ -35,12 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <p>
               {APP_NAME} is free and open source. Headlines via Google News; every story links to its original publisher.
             </p>
-            <p>
-              Built with Next.js, GitHub Actions &amp; GitHub Pages ·{" "}
-              <a href={GITHUB_URL} className="underline hover:text-ink">
-                GitHub
-              </a>
-            </p>
+            <p>Built with Next.js, GitHub Actions &amp; GitHub Pages</p>
           </div>
         </footer>
       </body>

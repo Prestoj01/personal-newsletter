@@ -81,7 +81,6 @@ export function Reader() {
   const { slot, editions } = state;
   const current = state.prefs;
   const shown = editions.find((e) => e.key === viewing) ?? editions[0];
-  const freq = frequencyInfo(current.frequency).label.toLowerCase();
 
   function startOver() {
     if (!confirm("Delete your topics and saved editions from this browser?")) return;
@@ -110,9 +109,7 @@ export function Reader() {
         <Card className="p-5">
           <Eyebrow>Next edition</Eyebrow>
           <p className="mt-1 font-serif text-xl">{fmt(slot.next)}</p>
-          <p className="text-sm text-muted">
-            {untilText(slot.next)} · {freq}
-          </p>
+          <p className="text-sm text-muted">{untilText(slot.next)}</p>
           <Button
             variant="secondary"
             size="sm"
@@ -137,7 +134,9 @@ export function Reader() {
                     className={`w-full rounded-lg px-3 py-2 text-left text-sm ${e.key === shown.key ? "bg-accent-soft font-semibold text-accent-strong" : "hover:bg-paper"}`}
                   >
                     {fmt(fromDateKey(e.key), { month: "short", day: "numeric", year: "numeric" })}
-                    <span className="ml-1 text-muted">· {frequencyInfo(e.frequency).label} No. {e.number}</span>
+                    <span className="ml-1 text-muted">
+                      · {e.frequency !== current.frequency && `${frequencyInfo(e.frequency).label} `}No. {e.number}
+                    </span>
                   </button>
                 </li>
               ))}
