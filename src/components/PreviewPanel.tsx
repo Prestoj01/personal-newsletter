@@ -24,13 +24,13 @@ export function PreviewPanel({ topics: picked, frequency }: { topics: string[]; 
           {isExample ? "Example edition: pick topics to make it yours" : "Live preview"}
         </span>
       </div>
-      <div className="h-[600px] min-h-0 overflow-y-auto bg-paper p-4 sm:p-6 lg:h-auto lg:flex-1">
+      <div className="h-[600px] min-h-0 overflow-y-auto bg-paper p-3 lg:h-auto lg:flex-1">
         {error ? (
           <Empty title="Couldn't load headlines" body={error} />
         ) : !ready ? (
           <Empty title="Gathering headlines…" />
         ) : (
-          <Edition sections={sections} frequency={frequency} date={new Date()} asOf={sources.generatedAt} />
+          <Edition sections={sections} frequency={frequency} date={new Date()} asOf={sources.generatedAt} inset />
         )}
       </div>
     </div>

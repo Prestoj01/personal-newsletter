@@ -17,14 +17,16 @@ interface Props {
   number?: number;
   /** When the headlines were fetched; relative times are measured from here. */
   asOf: string;
+  /** Set when rendered inside another card, so its corners nest correctly. */
+  inset?: boolean;
 }
 
 /** A newsletter issue, styled like a printed paper. */
-export function Edition({ sections, frequency, date, number, asOf }: Props) {
+export function Edition({ sections, frequency, date, number, asOf, inset = false }: Props) {
   const now = new Date(asOf).getTime();
   const withNews = sections.filter((s) => s.articles.length);
   return (
-    <article className="mx-auto max-w-2xl rounded-card border border-line bg-surface font-serif text-ink">
+    <article className={`mx-auto max-w-2xl ${inset ? "rounded-inset" : "rounded-card"} border border-line bg-surface font-serif text-ink`}>
       <header className="border-b-[3px] border-double border-ink px-6 pb-5 pt-8 sm:px-9">
         <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
           {frequencyInfo(frequency).label} edition{number ? ` · No. ${number}` : ""}

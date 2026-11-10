@@ -22,8 +22,11 @@
   --color-danger: #b91c1c;
   --color-success: #047857;
 
-  --radius-card: 1rem;
-  --radius-control: 0.75rem;
+  /* Nested corners follow inner radius = outer radius - padding. */
+  --radius-card: 1rem; /* 16px */
+  --radius-control: 0.75rem; /* 12px */
+  --radius-item: 0.5rem; /* 8px: rows inside a card with 8px padding */
+  --radius-inset: 0.25rem; /* 4px: content inside a card with 12px padding */
 }
 
 :root {
