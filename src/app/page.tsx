@@ -1,23 +1,23 @@
 import { NewsletterBuilder } from "@/components/NewsletterBuilder";
 
 const HOW_IT_WORKS = [
-  { title: "Pick your interests", body: "Choose from 40+ topics or add anything you like — a team, a band, a hobby, a company." },
-  { title: "Choose your rhythm", body: "Daily, weekly, every two weeks or monthly. Change it any time from the link in every issue." },
-  { title: "Read what matters", body: "We gather the freshest headlines for each topic, remove duplicates and deliver one tidy email." },
+  { title: "Pick your interests", body: "Choose from 40+ topics or add anything you like: a team, a band, a hobby, a company." },
+  { title: "Choose your rhythm", body: "Daily, weekly, biweekly or monthly. A new edition is printed on your schedule, and past ones are kept." },
+  { title: "Read what matters", body: "Headlines are refreshed every few hours, de-duplicated across topics and laid out as one tidy issue." },
 ];
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-6">
       <section className="py-12 text-center sm:py-20">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-orange-700">Free · No account needed</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-orange-700">Free · No account · No email</p>
         <h1 className="mx-auto mt-4 max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-stone-900 sm:text-6xl">
           The news you care about.
           <br />
           <em className="text-orange-700">Nothing else.</em>
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-lg text-stone-600">
-          Tell us your favorite things and hobbies, pick how often you want to hear from us, and get a personal newsletter with the latest on exactly those topics.
+          Tell us your favorite things and hobbies, pick how often you want a new edition, and get a personal newsletter with the latest on exactly those topics.
         </p>
       </section>
 

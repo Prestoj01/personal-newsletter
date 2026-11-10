@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { MAX_TOPICS } from "@/lib/config";
-import { TOPIC_GROUPS, presetFor } from "@/lib/topics";
+import { CATALOG, TOPIC_GROUPS, emojiFor, isChipTopic, presetFor } from "@/lib/topics";
 
 interface Props {
   selected: string[];
@@ -13,7 +13,7 @@ export function TopicPicker({ selected, onChange }: Props) {
   const [custom, setCustom] = useState("");
   const selectedKeys = new Set(selected.map((t) => t.toLowerCase()));
   const atLimit = selected.length >= MAX_TOPICS;
-  const customTopics = selected.filter((t) => !presetFor(t));
+  const customTopics = selected.filter((t) => !isChipTopic(t));
 
   function toggle(label: string) {
     if (selectedKeys.has(label.toLowerCase())) {
@@ -25,8 +25,10 @@ export function TopicPicker({ selected, onChange }: Props) {
 
   function addCustom(e: React.FormEvent) {
     e.preventDefault();
-    const value = custom.replace(/\s+/g, " ").trim();
-    if (value.length < 2 || value.length > 60 || atLimit) return;
+    const typed = custom.replace(/\s+/g, " ").trim();
+    if (typed.length < 2 || typed.length > 60 || atLimit) return;
+    // "chiefs" -> "Kansas City Chiefs", so known topics get their dedicated feed.
+    const value = presetFor(typed)?.label ?? typed;
     if (!selectedKeys.has(value.toLowerCase())) onChange([...selected, value]);
     setCustom("");
   }
@@ -68,7 +70,8 @@ export function TopicPicker({ selected, onChange }: Props) {
             value={custom}
             onChange={(e) => setCustom(e.target.value)}
             maxLength={60}
-            placeholder="e.g. Taylor Swift, sourdough, Kansas City Chiefs"
+            list="topic-suggestions"
+            placeholder="e.g. Taylor Swift, Lakers, sourdough"
             className="min-w-0 flex-1 rounded-full border border-stone-300 bg-white px-4 py-2 text-sm outline-none focus:border-orange-700 focus:ring-2 focus:ring-orange-700/20"
           />
           <button
@@ -78,7 +81,15 @@ export function TopicPicker({ selected, onChange }: Props) {
           >
             Add
           </button>
+          <datalist id="topic-suggestions">
+            {CATALOG.map((t) => (
+              <option key={t.label} value={t.label} />
+            ))}
+          </datalist>
         </form>
+        <p className="mt-2 text-xs text-stone-500">
+          Start typing for 100+ suggestions (teams, companies, people, hobbies). Anything else is matched against thousands of fresh headlines, so very niche topics may be quiet some days.
+        </p>
         {customTopics.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {customTopics.map((t) => (
@@ -89,7 +100,7 @@ export function TopicPicker({ selected, onChange }: Props) {
                 className="rounded-full border border-orange-700 bg-orange-700 px-3.5 py-1.5 text-sm text-white"
                 aria-label={`Remove ${t}`}
               >
-                ✨ {t} <span className="ml-1 opacity-70">×</span>
+                {emojiFor(t)} {t} <span className="ml-1 opacity-70">×</span>
               </button>
             ))}
           </div>

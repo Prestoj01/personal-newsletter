@@ -1,0 +1,71 @@
+name: Refresh news & deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 */6 * * *" # every 6 hours: fresh headlines
+  workflow_dispatch:
+
+permissions:
+  contents: write # only used by the keep-alive step below
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - id: pages
+        uses: actions/configure-pages@v6
+
+      - name: Fetch latest headlines
+        run: npm run fetch-news
+        env:
+          # If a feed fails, fall back to what's currently live instead of publishing a gap.
+          PREVIOUS_DATA_URL: ${{ steps.pages.outputs.base_url }}/data
+
+      - name: Build static site
+        run: npm run build
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: out
+
+      # GitHub disables scheduled workflows after 60 days without repo activity.
+      # An empty commit every ~50 quiet days keeps the news refreshing indefinitely.
+      - name: Keep scheduled workflow alive
+        if: github.event_name == 'schedule'
+        run: |
+          last=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - last )) -gt $(( 50 * 86400 )) ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "chore: keep scheduled news refresh active"
+            git push
+          fi
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

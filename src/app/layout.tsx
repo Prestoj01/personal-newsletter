@@ -20,9 +20,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Link href="/" className="font-serif text-2xl font-bold tracking-tight">
             {APP_NAME}
           </Link>
-          <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="text-sm text-stone-600 hover:text-stone-900">
-            View source on GitHub ↗
-          </a>
+          <nav className="flex items-center gap-5 text-sm text-stone-600">
+            <Link href="/read/" className="font-medium hover:text-stone-900">
+              My edition
+            </Link>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-stone-900">
+              GitHub ↗
+            </a>
+          </nav>
         </header>
         <main className="flex-1">{children}</main>
         <footer className="mt-16 border-t border-stone-200">
@@ -31,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {APP_NAME} is free and open source. Headlines via Google News; every story links to its original publisher.
             </p>
             <p>
-              Built with Next.js, Postgres &amp; Vercel ·{" "}
+              Built with Next.js, GitHub Actions &amp; GitHub Pages ·{" "}
               <a href={GITHUB_URL} className="underline hover:text-stone-800">
                 GitHub
               </a>
