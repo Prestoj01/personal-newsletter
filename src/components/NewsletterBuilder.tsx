@@ -104,11 +104,15 @@ export function NewsletterBuilder() {
       </div>
 
       {topics.length > 0 && !ctaVisible && (
-        <div className="fixed inset-x-0 bottom-0 z-10 border-t border-line bg-surface/95 p-3 backdrop-blur lg:hidden">
-          <Button size="lg" onClick={start} className="w-full">
-            {ctaLabel}
-          </Button>
-        </div>
+        <>
+          {/* Spacer so the fixed bar never covers the end of the page. */}
+          <div className="h-20 lg:hidden" aria-hidden />
+          <div className="fixed inset-x-0 bottom-0 z-10 border-t border-line bg-surface/95 p-3 backdrop-blur lg:hidden">
+            <Button size="lg" onClick={start} className="w-full">
+              {ctaLabel}
+            </Button>
+          </div>
+        </>
       )}
     </div>
   );
