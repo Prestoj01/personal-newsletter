@@ -9,13 +9,13 @@ const HOW_IT_WORKS = [
 export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-6">
-      <section className="py-12 text-center sm:py-20">
-        <h1 className="mx-auto max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-ink sm:text-6xl">
+      <section className="py-10 text-center sm:py-14">
+        <h1 className="mx-auto max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl">
           The latest on your teams, hobbies and interests.
           <br />
           <span className="text-accent">Nothing else.</span>
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-muted">
+        <p className="mx-auto mt-5 max-w-xl text-lg text-muted">
           Tell us your favorite things and hobbies, pick how often you want a new edition, and get a personal newsletter with the latest on exactly those topics.
         </p>
       </section>

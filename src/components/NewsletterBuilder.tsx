@@ -48,7 +48,7 @@ export function NewsletterBuilder() {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
       <div className="space-y-6">
         <Step n={1} title="Pick up to 12 topics">
           <TopicPicker selected={topics} onChange={setTopics} />

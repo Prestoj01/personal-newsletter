@@ -18,13 +18,13 @@ export function PreviewPanel({ topics: picked, frequency }: { topics: string[]; 
   const sections = useMemo(() => (ready ? buildSections(sources, topics, frequency) : []), [ready, sources, topics, frequency]);
 
   return (
-    <div className="overflow-hidden rounded-card border border-line bg-surface">
+    <div className="flex flex-col overflow-hidden rounded-card border border-line bg-surface lg:h-[calc(100vh-3rem)]">
       <div className="border-b border-line px-4 py-2.5">
         <span className="text-xs font-medium text-muted">
           {isExample ? "Example edition: pick topics to make it yours" : "Live preview"}
         </span>
       </div>
-      <div className="h-[640px] overflow-y-auto bg-paper p-4 sm:p-6">
+      <div className="h-[600px] min-h-0 overflow-y-auto bg-paper p-4 sm:p-6 lg:h-auto lg:flex-1">
         {error ? (
           <Empty title="Couldn't load headlines" body={error} />
         ) : !ready ? (
