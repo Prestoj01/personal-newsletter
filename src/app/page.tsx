@@ -1,9 +1,9 @@
 import { NewsletterBuilder } from "@/components/NewsletterBuilder";
 
 const HOW_IT_WORKS = [
-  { title: "Pick your interests", body: "Choose from 40+ topics or add anything you like: a team, a band, a hobby, a company." },
-  { title: "Choose your rhythm", body: "Daily, weekly, biweekly or monthly. A new edition is printed on your schedule, and past ones are kept." },
-  { title: "Read what matters", body: "Headlines are refreshed every few hours, de-duplicated across topics and laid out as one tidy issue." },
+  { title: "160+ topics, or type your own", body: "Teams, companies, people, shows and hobbies have dedicated feeds. Anything else is matched against thousands of headlines." },
+  { title: "A new edition on your schedule", body: "Daily, weekly, biweekly or monthly. Each edition stays the same until the next one is printed, and past ones are kept." },
+  { title: "Headlines refreshed every 6 hours", body: "Stories are pulled from Google News, de-duplicated across your topics and linked to the original publisher." },
 ];
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
     <div className="mx-auto max-w-6xl px-6">
       <section className="py-12 text-center sm:py-20">
         <h1 className="mx-auto max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-ink sm:text-6xl">
-          The news you care about.
+          The latest on your teams, hobbies and interests.
           <br />
           <span className="text-accent">Nothing else.</span>
         </h1>

@@ -8,7 +8,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${APP_NAME} — a newsletter about exactly what you care about`,
+  title: `${APP_NAME}: a free newsletter on your teams, hobbies and interests`,
   description: "Pick your interests and hobbies, choose how often, and get a free personalized newsletter with the latest news on just those topics.",
 };
 

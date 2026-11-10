@@ -50,15 +50,15 @@ export function NewsletterBuilder() {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <div className="space-y-6">
-        <Step n={1} title="What are you into?">
+        <Step n={1} title="Pick up to 12 topics">
           <TopicPicker selected={topics} onChange={setTopics} />
         </Step>
 
-        <Step n={2} title="How often?">
+        <Step n={2} title="Choose how often a new edition arrives">
           <FrequencyPicker value={frequency} onChange={setFrequency} />
         </Step>
 
-        <Step n={3} title={existing ? "Save your changes" : "Start reading"}>
+        <Step n={3} title={existing ? "Save your changes" : "Create your newsletter"}>
           <Button size="lg" onClick={start} disabled={topics.length === 0} className="w-full sm:w-auto">
             {existing ? "Update my newsletter →" : "Create my newsletter →"}
           </Button>
