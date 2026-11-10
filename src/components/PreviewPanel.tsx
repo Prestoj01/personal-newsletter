@@ -46,7 +46,9 @@ export function PreviewPanel({ topics: picked, frequency }: { topics: string[]; 
             <EditionSkeleton inset />
           )
         ) : (
-          <Edition sections={sections} frequency={frequency} date={new Date()} asOf={sources.generatedAt} inset />
+          <div key={`${topics.join("|")}|${frequency}`}>
+            <Edition sections={sections} frequency={frequency} date={new Date()} asOf={sources.generatedAt} inset />
+          </div>
         )}
       </div>
     </div>

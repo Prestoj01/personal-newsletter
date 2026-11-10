@@ -18,7 +18,7 @@ const SIZES: Record<Size, string> = {
 
 /** Class names for anything that should look like a button (buttons, links). */
 export function buttonClass(variant: Variant = "primary", size: Size = "md", extra = "") {
-  return `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${extra}`;
+  return `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition motion-safe:active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${extra}`;
 }
 
 export function Button({
@@ -41,7 +41,7 @@ export function Eyebrow({ className = "", ...props }: React.HTMLAttributes<HTMLP
 
 /** Selectable pill used for topics. */
 export function chipClass(on: boolean) {
-  return `rounded-full border px-3.5 py-1.5 text-sm transition ${
+  return `rounded-full border px-3.5 py-1.5 text-sm transition motion-safe:active:scale-95 ${
     on
       ? "border-accent bg-accent text-white"
       : "border-line-strong bg-surface text-ink hover:border-muted disabled:cursor-not-allowed disabled:opacity-40"

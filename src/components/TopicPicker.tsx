@@ -91,7 +91,7 @@ export function TopicPicker({ selected, onChange }: Props) {
                 key={t}
                 type="button"
                 onClick={() => toggle(t)}
-                className={chipClass(true)}
+                className={`${chipClass(true)} motion-safe:animate-pop-in`}
                 aria-label={`Remove ${t}`}
               >
                 {emojiFor(t)} {t} <span className="ml-1 opacity-70">×</span>

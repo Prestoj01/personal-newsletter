@@ -31,6 +31,13 @@ export function Reader() {
   const { sources: data, error } = useEditionSources(prefs?.topics ?? null);
   const [state, setState] = useState<State>({ kind: "loading" });
   const [viewing, setViewing] = useState<string | null>(null);
+  const [reminderSaved, setReminderSaved] = useState(false);
+
+  useEffect(() => {
+    if (!reminderSaved) return;
+    const t = setTimeout(() => setReminderSaved(false), 2500);
+    return () => clearTimeout(t);
+  }, [reminderSaved]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage is only readable after mount
@@ -103,6 +110,7 @@ export function Reader() {
           </button>
         )}
         <Edition
+          key={shown.key}
           sections={shown.sections}
           frequency={shown.frequency}
           date={fromDateKey(shown.key)}
@@ -119,10 +127,14 @@ export function Reader() {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => downloadReminder(current.frequency, slot.next, window.location.href)}
+            onClick={() => {
+              downloadReminder(current.frequency, slot.next, window.location.href);
+              setReminderSaved(true);
+            }}
             className="mt-4 w-full"
+            aria-live="polite"
           >
-            Add reminders to my calendar
+            {reminderSaved ? <span className="motion-safe:animate-pop-in">✓ Reminder downloaded</span> : "Add reminders to my calendar"}
           </Button>
           <Link href="/" className={buttonClass("ghost", "sm", "mt-2 w-full")}>
             Edit topics or frequency
