@@ -10,8 +10,7 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-6">
       <section className="py-12 text-center sm:py-20">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">Free · No account · No email</p>
-        <h1 className="mx-auto mt-4 max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-ink sm:text-6xl">
+        <h1 className="mx-auto max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-ink sm:text-6xl">
           The news you care about.
           <br />
           <em className="text-accent">Nothing else.</em>
