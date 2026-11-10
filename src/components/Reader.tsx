@@ -6,7 +6,7 @@ import { downloadReminder } from "@/lib/calendar";
 import { buildSections } from "@/lib/edition";
 import { currentEdition, frequencyInfo, fromDateKey, type EditionSlot } from "@/lib/frequency";
 import { clearAll, loadEditions, loadPrefs, saveEdition, type Prefs, type StoredEdition } from "@/lib/storage";
-import { Edition } from "./Edition";
+import { Edition, EditionSkeleton } from "./Edition";
 import { useEditionSources } from "./useEditionSources";
 import { Button, Card, Eyebrow, buttonClass } from "./ui";
 
@@ -76,7 +76,13 @@ export function Reader() {
   }
 
   if (error) return <p className="py-24 text-center text-danger">{error}</p>;
-  if (state.kind === "loading") return <p className="animate-pulse py-24 text-center font-serif text-2xl text-muted">Printing your edition…</p>;
+  if (state.kind === "loading") {
+    return (
+      <div className="mx-auto max-w-6xl px-6 py-6 lg:pr-[312px]">
+        <EditionSkeleton />
+      </div>
+    );
+  }
 
   const { slot, editions } = state;
   const current = state.prefs;

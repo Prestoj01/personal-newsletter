@@ -80,3 +80,34 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
     </article>
   );
 }
+
+/** Placeholder with the same layout as an edition, shown while headlines load. */
+export function EditionSkeleton({ inset = false }: { inset?: boolean }) {
+  const bar = "rounded bg-line motion-safe:animate-pulse";
+  return (
+    <div
+      role="status"
+      aria-label="Loading headlines"
+      className={`mx-auto max-w-2xl ${inset ? "rounded-inset" : "rounded-card"} border border-line bg-surface`}
+    >
+      <div className="space-y-3 border-b-[3px] border-double border-line px-6 pb-5 pt-8 sm:px-9">
+        <div className={`${bar} h-3 w-32`} />
+        <div className={`${bar} h-9 w-56`} />
+        <div className={`${bar} h-4 w-44`} />
+      </div>
+      <div className="space-y-8 px-6 py-8 sm:px-9">
+        {[0, 1, 2].map((s) => (
+          <div key={s} className="space-y-4">
+            <div className={`${bar} h-3 w-24`} />
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="space-y-2">
+                <div className={`${bar} h-5 ${i === 1 ? "w-4/5" : "w-full"}`} />
+                <div className={`${bar} h-3 w-28`} />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
