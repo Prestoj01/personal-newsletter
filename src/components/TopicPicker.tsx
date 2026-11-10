@@ -51,7 +51,7 @@ export function TopicPicker({ selected, onChange }: Props) {
                   aria-pressed={on}
                   className={chipClass(on)}
                 >
-                  <span className="mr-1.5">{t.emoji}</span>
+                  <span className="mr-1">{t.emoji}</span>
                   {t.label}
                 </button>
               );
@@ -94,7 +94,9 @@ export function TopicPicker({ selected, onChange }: Props) {
                 className={`${chipClass(true)} motion-safe:animate-pop-in`}
                 aria-label={`Remove ${t}`}
               >
-                {emojiFor(t)} {t} <span className="ml-1 opacity-70">×</span>
+                <span className="mr-1">{emojiFor(t)}</span>
+                {t}
+                <span className="ml-1.5 opacity-70">×</span>
               </button>
             ))}
           </div>

@@ -39,9 +39,12 @@ export function Eyebrow({ className = "", ...props }: React.HTMLAttributes<HTMLP
   return <p className={`text-xs font-semibold uppercase tracking-widest text-muted ${className}`} {...props} />;
 }
 
-/** Selectable pill used for topics. */
+/**
+ * Selectable pill used for topics. Chips lead with an emoji whose glyph carries its own side
+ * bearing, so the left padding is optically trimmed to look equal to the right.
+ */
 export function chipClass(on: boolean) {
-  return `rounded-full border px-3.5 py-1.5 text-sm transition motion-safe:active:scale-95 ${
+  return `rounded-full border py-1.5 pl-3 pr-3.5 text-sm transition motion-safe:active:scale-95 ${
     on
       ? "border-accent bg-accent text-white"
       : "border-line-strong bg-surface text-ink hover:border-muted disabled:cursor-not-allowed disabled:opacity-40"
