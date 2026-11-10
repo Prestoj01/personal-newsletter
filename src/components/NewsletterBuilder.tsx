@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { MAX_TOPICS } from "@/lib/config";
 import { toDateKey, type Frequency } from "@/lib/frequency";
 import { loadPrefs, savePrefs } from "@/lib/storage";
 import { FrequencyPicker } from "./FrequencyPicker";
@@ -9,13 +10,25 @@ import { PreviewPanel } from "./PreviewPanel";
 import { TopicPicker } from "./TopicPicker";
 import { Button, Card } from "./ui";
 
-function Step({ n, title, children, className = "" }: { n: number; title: string; children: React.ReactNode; className?: string }) {
+interface StepProps {
+  n: number;
+  title: string;
+  /** Status shown at the right of the step's header, next to what it describes. */
+  aside?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}
+
+function Step({ n, title, aside, children, className = "" }: StepProps) {
   return (
     <Card className={`p-6 sm:p-8 ${className}`}>
-      <h2 className="mb-5 flex items-center gap-3 font-serif text-2xl text-ink">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink font-sans text-sm font-semibold text-white">{n}</span>
-        {title}
-      </h2>
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <h2 className="flex items-center gap-3 font-serif text-2xl text-ink">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink font-sans text-sm font-semibold text-white">{n}</span>
+          {title}
+        </h2>
+        {aside && <p className="shrink-0 text-sm text-muted">{aside}</p>}
+      </div>
       {children}
     </Card>
   );
@@ -64,7 +77,7 @@ export function NewsletterBuilder() {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
       <div className="space-y-6">
-        <Step n={1} title="Pick up to 12 topics">
+        <Step n={1} title={`Pick up to ${MAX_TOPICS} topics`} aside={`${topics.length} of ${MAX_TOPICS}`}>
           <TopicPicker selected={topics} onChange={setTopics} />
         </Step>
 

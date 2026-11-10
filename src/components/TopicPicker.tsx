@@ -84,9 +84,6 @@ export function TopicPicker({ selected, onChange }: Props) {
             ))}
           </datalist>
         </form>
-        <p className="mt-2 text-xs text-muted">
-          Start typing for 100+ suggestions (teams, companies, people, hobbies). Anything else is matched against thousands of fresh headlines, so very niche topics may be quiet some days.
-        </p>
         {customTopics.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {customTopics.map((t) => (
@@ -102,11 +99,10 @@ export function TopicPicker({ selected, onChange }: Props) {
             ))}
           </div>
         )}
+        <p className="mt-3 text-xs text-muted">
+          Start typing for 100+ suggestions (teams, companies, people, hobbies). Anything else is matched against thousands of fresh headlines, so very niche topics may be quiet some days.
+        </p>
       </div>
-
-      <p className="text-sm text-muted">
-        {selected.length} of {MAX_TOPICS} selected{atLimit && " — that's the max"}
-      </p>
     </div>
   );
 }
