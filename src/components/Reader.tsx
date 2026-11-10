@@ -109,7 +109,7 @@ export function Reader() {
         <Card className="p-5">
           <Eyebrow>Next edition</Eyebrow>
           <p className="mt-1 font-serif text-xl text-balance">{fmt(slot.next)}</p>
-          <p className="text-sm text-muted">{untilText(slot.next)}</p>
+          <p className="text-sm tabular-nums text-muted">{untilText(slot.next)}</p>
           <Button
             variant="secondary"
             size="sm"
@@ -126,7 +126,7 @@ export function Reader() {
         {editions.length > 1 && (
           <Card className="p-2">
             <Eyebrow className="px-3 pb-2 pt-3">Past editions</Eyebrow>
-            <ul className="space-y-1">
+            <ul className="space-y-1 tabular-nums">
               {editions.map((e) => (
                 <li key={e.key}>
                   <button

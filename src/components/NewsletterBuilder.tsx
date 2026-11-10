@@ -27,7 +27,7 @@ function Step({ n, title, aside, children, className = "" }: StepProps) {
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink font-sans text-sm font-semibold text-white">{n}</span>
           {title}
         </h2>
-        {aside && <p className="shrink-0 text-sm text-muted">{aside}</p>}
+        {aside && <p className="shrink-0 text-sm tabular-nums text-muted">{aside}</p>}
       </div>
       {children}
     </Card>

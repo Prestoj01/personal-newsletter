@@ -28,11 +28,11 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
   return (
     <article className={`mx-auto max-w-2xl ${inset ? "rounded-inset" : "rounded-card"} border border-line bg-surface font-serif text-ink`}>
       <header className="border-b-[3px] border-double border-ink px-6 pb-5 pt-8 sm:px-9">
-        <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+        <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] tabular-nums text-accent">
           {frequencyInfo(frequency).label} edition{number ? ` · No. ${number}` : ""}
         </p>
         <h2 className="mt-1.5 text-4xl font-bold leading-tight">{APP_NAME}</h2>
-        <p className="mt-2 font-sans text-sm text-muted">
+        <p className="mt-2 font-sans text-sm tabular-nums text-muted">
           {date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
         </p>
       </header>
@@ -58,7 +58,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
                     <a href={a.url} target="_blank" rel="noreferrer" className="text-lg font-semibold leading-snug text-pretty hover:text-accent">
                       {a.title}
                     </a>
-                    <p className="mt-1 font-sans text-xs text-muted">
+                    <p className="mt-1 font-sans text-xs tabular-nums text-muted">
                       {a.source} · {relativeTime(a.publishedAt, now)}
                     </p>
                   </li>
