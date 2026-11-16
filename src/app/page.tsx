@@ -1,3 +1,4 @@
+import { KineticHeadline } from "@/components/KineticHeadline";
 import { NewsletterBuilder } from "@/components/NewsletterBuilder";
 
 const HOW_IT_WORKS = [
@@ -9,17 +10,23 @@ const HOW_IT_WORKS = [
 export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-6">
-      <section className="py-10 text-center sm:py-14">
-        <h1 className="mx-auto max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl">
-          <span className="block">The latest on your teams, hobbies and interests.</span>
-          <span className="block text-accent">Nothing else.</span>
-        </h1>
-        <p className="mx-auto mt-5 max-w-xl text-lg text-muted">
-          Tell us your favorite things and hobbies, pick how often you want a new edition, and get a personal newsletter with the latest on exactly those topics.
-        </p>
+      <section className="grid gap-8 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-12">
+        <KineticHeadline />
+        <div className="intro-fade flex flex-col justify-end gap-5 lg:border-l lg:border-ink lg:pl-8" style={{ "--d": "700ms" } as React.CSSProperties}>
+          <p className="kicker text-xs font-semibold text-accent">Extra! Extra! Read all about it</p>
+          <p className="drop-cap font-serif text-lg leading-relaxed text-ink">
+            Tell us your favorite things and hobbies, pick how often you want a new edition, and get a personal newspaper with the latest on exactly
+            those topics. No account, no email, no clutter.
+          </p>
+          <a href="#builder" className="kicker inline-flex items-center gap-2 text-xs font-semibold hover:text-accent">
+            Build your paper <span className="motion-safe:animate-bounce">↓</span>
+          </a>
+        </div>
       </section>
 
-      <NewsletterBuilder />
+      <div id="builder" className="scroll-mt-6">
+        <NewsletterBuilder />
+      </div>
 
       <section className="mt-20 grid gap-6 sm:grid-cols-3">
         {HOW_IT_WORKS.map((step) => (

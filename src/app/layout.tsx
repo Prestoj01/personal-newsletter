@@ -28,9 +28,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </span>
             <span>Price: Free</span>
           </div>
-          <div className="rule-double" />
+          <div className="rule-double intro-rule" />
           <div className="flex items-center justify-between py-3">
-            <Link href="/" className="font-nameplate text-3xl leading-none">
+            <Link href="/" className="intro-stamp font-nameplate text-3xl leading-none">
               {APP_NAME}
             </Link>
             <nav className="kicker flex items-center gap-5 text-xs">

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MAX_TOPICS } from "@/lib/config";
+import { ADD_TOPIC_EVENT } from "@/lib/events";
 import { toDateKey, type Frequency } from "@/lib/frequency";
 import { loadPrefs, savePrefs } from "@/lib/storage";
 import { FrequencyPicker } from "./FrequencyPicker";
@@ -60,6 +61,18 @@ export function NewsletterBuilder() {
     setFrequency(prefs.frequency);
     setExisting(true);
     /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+
+  // The hero's cycling headline can add its topic directly.
+  useEffect(() => {
+    const onAdd = (e: Event) => {
+      const topic = (e as CustomEvent<string>).detail;
+      setTopics((cur) =>
+        cur.some((t) => t.toLowerCase() === topic.toLowerCase()) || cur.length >= MAX_TOPICS ? cur : [...cur, topic],
+      );
+    };
+    window.addEventListener(ADD_TOPIC_EVENT, onAdd);
+    return () => window.removeEventListener(ADD_TOPIC_EVENT, onAdd);
   }, []);
 
   function start() {
