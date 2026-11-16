@@ -1,6 +1,7 @@
 import { APP_NAME } from "@/lib/config";
 import { moreCoverageUrl, type TopicSection } from "@/lib/edition";
 import { frequencyInfo, type Frequency } from "@/lib/frequency";
+import type { Article } from "@/lib/news-data";
 
 function relativeTime(iso: string, now: number): string {
   const h = Math.floor(Math.max(0, now - new Date(iso).getTime()) / 3_600_000);
@@ -8,6 +9,12 @@ function relativeTime(iso: string, now: number): string {
   if (h < 24) return `${h}h ago`;
   const d = Math.floor(h / 24);
   return d === 1 ? "yesterday" : `${d} days ago`;
+}
+
+/** "NFL, Coffee & Space Exploration" */
+function listTopics(topics: string[]): string {
+  if (topics.length <= 1) return topics.join("");
+  return `${topics.slice(0, -1).join(", ")} & ${topics[topics.length - 1]}`;
 }
 
 interface Props {
@@ -21,88 +28,137 @@ interface Props {
   inset?: boolean;
 }
 
-/** A newsletter issue, styled like a printed paper. */
+function Byline({ article, now }: { article: Article; now: number }) {
+  return (
+    <p className="kicker mt-1.5 text-[10px] tabular-nums text-muted">
+      {article.source} · {relativeTime(article.publishedAt, now)}
+    </p>
+  );
+}
+
+/**
+ * A newsletter issue laid out as a broadsheet front page: nameplate, a banner lead story, then
+ * every topic flowing through newspaper columns. Column count follows the space available
+ * (container queries), so the same component works in the narrow preview and the full reader.
+ */
 export function Edition({ sections, frequency, date, number, asOf, inset = false }: Props) {
   const now = new Date(asOf).getTime();
   const withNews = sections.filter((s) => s.articles.length);
+  const leadSection = withNews[0];
+  const lead = leadSection?.articles[0];
+  const dateStr = date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
   return (
-    <article className={`mx-auto max-w-2xl motion-safe:animate-fade-in ${inset ? "rounded-inset" : "rounded-card"} border border-line bg-surface font-serif text-ink`}>
-      <header className="border-b-[3px] border-double border-ink px-6 pb-5 pt-8 sm:px-9">
-        <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] tabular-nums text-accent">
-          {frequencyInfo(frequency).label} edition{number ? ` · No. ${number}` : ""}
-        </p>
-        <h2 className="mt-1.5 font-nameplate text-5xl leading-tight">{APP_NAME}</h2>
-        <p className="mt-2 font-sans text-sm tabular-nums text-muted">
-          {date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
-        </p>
+    <article
+      className={`@container mx-auto max-w-5xl ${inset ? "rounded-inset" : "rounded-card"} border border-line bg-surface px-5 pb-8 pt-4 text-ink shadow-[0_1px_0_var(--color-line),0_12px_30px_-18px_rgb(0_0_0/0.35)] motion-safe:animate-fade-in @lg:px-8`}
+    >
+      {/* Masthead */}
+      <header className="text-center">
+        <div className="kicker flex items-center justify-between gap-2 border-b border-ink pb-1.5 text-[10px] tabular-nums text-muted">
+          <span>{number ? `No. ${number}` : "Preview"}</span>
+          <span className="hidden @md:inline">{dateStr}</span>
+          <span>{frequencyInfo(frequency).label} edition</span>
+        </div>
+        <h2 className="py-2 font-nameplate text-[clamp(2.25rem,11cqi,4.75rem)] leading-none">{APP_NAME}</h2>
+        <div className="rule-double" />
+        {withNews.length > 0 && (
+          <p className="kicker border-b border-ink py-1.5 text-[10px] font-medium @md:text-[11px]">
+            All the news on {listTopics(withNews.map((s) => s.topic))}
+          </p>
+        )}
       </header>
 
-      {withNews.length > 0 && (
-        <p className="px-6 pt-4 font-sans text-sm text-muted sm:px-9">
-          In this issue: {withNews.map((s) => `${s.emoji} ${s.topic}`).join("  ·  ")}
-        </p>
+      {/* Banner lead story */}
+      {lead && (
+        <section className="border-b border-ink py-5">
+          <p className="kicker text-[11px] font-semibold text-accent">
+            {leadSection.emoji} {leadSection.topic}
+          </p>
+          <a href={lead.url} target="_blank" rel="noreferrer" className="group mt-1 block">
+            <h3 className="font-display text-[clamp(1.9rem,7.5cqi,4rem)] uppercase leading-[0.95] tracking-tight group-hover:text-accent">
+              {lead.title}
+            </h3>
+          </a>
+          <Byline article={lead} now={now} />
+        </section>
       )}
 
-      <div className="px-6 pb-8 sm:px-9">
-        {sections.map((s) => (
-          <section key={s.topic} className="pt-6">
-            <h3 className="border-b border-line pb-2 font-sans text-xs font-bold uppercase tracking-[0.15em] text-accent">
-              {s.emoji} {s.topic}
-            </h3>
-            {s.articles.length === 0 ? (
-              <p className="py-3 font-sans text-sm text-muted">No matching headlines in this edition&apos;s news.</p>
-            ) : (
-              <ul className="divide-y divide-line/60">
-                {s.articles.map((a) => (
-                  <li key={a.url} className="py-3">
-                    <a href={a.url} target="_blank" rel="noreferrer" className="text-lg font-semibold leading-snug text-pretty hover:text-accent">
-                      {a.title}
-                    </a>
-                    <p className="mt-1 font-sans text-xs tabular-nums text-muted">
-                      {a.source} · {relativeTime(a.publishedAt, now)}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <a
-              href={moreCoverageUrl(s.topic)}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`More on ${s.topic} on Google News`}
-              className="mt-1 inline-block font-sans text-xs font-medium text-accent hover:underline"
-            >
-              More on Google News ↗
-            </a>
-          </section>
-        ))}
+      {/* Everything else, in columns */}
+      <div className="gap-8 pt-5 [column-rule:1px_solid_var(--color-line)] @xl:columns-2 @4xl:columns-3">
+        {sections.map((s) => {
+          const articles = s === leadSection ? s.articles.slice(1) : s.articles;
+          if (s === leadSection && articles.length === 0) return null;
+          return (
+            <section key={s.topic} className="mb-6 break-inside-avoid">
+              <h3 className="kicker flex items-center gap-1.5 border-t-[3px] border-ink pt-1.5 text-[11px] font-semibold text-accent">
+                <span aria-hidden>{s.emoji}</span> {s.topic}
+              </h3>
+              {articles.length === 0 ? (
+                <p className="py-3 text-sm text-muted">No matching headlines in this edition&apos;s news.</p>
+              ) : (
+                <ul className="divide-y divide-line">
+                  {articles.map((a, i) => (
+                    <li key={a.url} className="py-3">
+                      <a
+                        href={a.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`headline-link font-serif leading-snug text-pretty ${i === 0 ? "text-xl font-bold" : "text-[1.05rem] font-semibold"}`}
+                      >
+                        {a.title}
+                      </a>
+                      <Byline article={a} now={now} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <a
+                href={moreCoverageUrl(s.topic)}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`More on ${s.topic} on Google News`}
+                className="kicker mt-1 inline-block text-[10px] font-semibold text-accent hover:underline"
+              >
+                More on Google News ↗
+              </a>
+            </section>
+          );
+        })}
       </div>
+
+      <p className="kicker mt-2 text-center text-xs text-muted" aria-hidden>
+        — 30 —
+      </p>
     </article>
   );
 }
 
 /** Placeholder with the same layout as an edition, shown while headlines load. */
 export function EditionSkeleton({ inset = false }: { inset?: boolean }) {
-  const bar = "rounded bg-line motion-safe:animate-pulse";
+  const bar = "bg-line motion-safe:animate-pulse";
   return (
     <div
       role="status"
       aria-label="Loading headlines"
-      className={`mx-auto max-w-2xl ${inset ? "rounded-inset" : "rounded-card"} border border-line bg-surface`}
+      className={`@container mx-auto max-w-5xl ${inset ? "rounded-inset" : "rounded-card"} border border-line bg-surface px-5 pb-8 pt-4 @lg:px-8`}
     >
-      <div className="space-y-3 border-b-[3px] border-double border-line px-6 pb-5 pt-8 sm:px-9">
-        <div className={`${bar} h-3 w-32`} />
-        <div className={`${bar} h-9 w-56`} />
-        <div className={`${bar} h-4 w-44`} />
+      <div className="flex flex-col items-center gap-3 border-b-4 border-line pb-4">
+        <div className={`${bar} h-2.5 w-full`} />
+        <div className={`${bar} h-12 w-2/3`} />
       </div>
-      <div className="space-y-8 px-6 py-8 sm:px-9">
-        {[0, 1, 2].map((s) => (
-          <div key={s} className="space-y-4">
-            <div className={`${bar} h-3 w-24`} />
+      <div className="space-y-3 border-b border-line py-5">
+        <div className={`${bar} h-3 w-24`} />
+        <div className={`${bar} h-10 w-full`} />
+        <div className={`${bar} h-10 w-3/4`} />
+      </div>
+      <div className="gap-8 pt-5 @xl:columns-2">
+        {[0, 1, 2, 3].map((s) => (
+          <div key={s} className="mb-6 break-inside-avoid space-y-3">
+            <div className={`${bar} h-3 w-28`} />
             {[0, 1, 2].map((i) => (
               <div key={i} className="space-y-2">
                 <div className={`${bar} h-5 ${i === 1 ? "w-4/5" : "w-full"}`} />
-                <div className={`${bar} h-3 w-28`} />
+                <div className={`${bar} h-2.5 w-24`} />
               </div>
             ))}
           </div>
