@@ -19,7 +19,7 @@ export function downloadReminder(frequency: Frequency, firstDate: Date, readUrl:
     "VERSION:2.0",
     `PRODID:-//${APP_NAME}//EN`,
     "BEGIN:VEVENT",
-    `UID:${crypto.randomUUID()}@personal-press`,
+    `UID:${crypto.randomUUID()}@extra-extra`,
     `DTSTAMP:${stamp}`,
     `DTSTART;VALUE=DATE:${ymd(firstDate)}`,
     `DTEND;VALUE=DATE:${ymd(next)}`,
@@ -32,7 +32,7 @@ export function downloadReminder(frequency: Frequency, firstDate: Date, readUrl:
   ].join("\r\n");
 
   const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
-  const a = Object.assign(document.createElement("a"), { href: url, download: "personal-press-reminder.ics" });
+  const a = Object.assign(document.createElement("a"), { href: url, download: "extra-extra-reminder.ics" });
   a.click();
   URL.revokeObjectURL(url);
 }

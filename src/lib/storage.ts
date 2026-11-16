@@ -18,6 +18,7 @@ export interface StoredEdition {
   sections: TopicSection[];
 }
 
+// Keys predate the rename to Extra Extra; kept so existing readers keep their editions.
 const PREFS_KEY = "personal-press:prefs";
 const EDITIONS_KEY = "personal-press:editions";
 const MAX_EDITIONS = 12;

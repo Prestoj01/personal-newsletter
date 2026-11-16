@@ -1,41 +1,57 @@
 import type { Metadata } from "next";
-import { Geist, Newsreader } from "next/font/google";
+import { Anton, Newsreader, Oswald, UnifrakturCook } from "next/font/google";
 import Link from "next/link";
+import { Dateline } from "@/components/Dateline";
 import { APP_NAME, GITHUB_URL } from "@/lib/config";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"] });
+const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], axes: ["opsz"] });
+const anton = Anton({ variable: "--font-anton", subsets: ["latin"], weight: "400" });
+const oswald = Oswald({ variable: "--font-oswald", subsets: ["latin"] });
+const unifraktur = UnifrakturCook({ variable: "--font-unifraktur", subsets: ["latin"], weight: "700" });
 
 export const metadata: Metadata = {
-  title: `${APP_NAME}: a free newsletter on your teams, hobbies and interests`,
-  description: "Pick your interests and hobbies, choose how often, and get a free personalized newsletter with the latest news on just those topics.",
+  title: `${APP_NAME}: a free newspaper about your teams, hobbies and interests`,
+  description: "Pick your interests and hobbies, choose how often, and get a free personal newspaper with the latest headlines on just those topics.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${newsreader.variable} h-full antialiased`}>
+    <html lang="en" className={`${newsreader.variable} ${anton.variable} ${oswald.variable} ${unifraktur.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
-        <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
-          <Link href="/" className="font-serif text-2xl font-bold tracking-tight">
-            {APP_NAME}
-          </Link>
-          <nav className="flex items-center gap-5 text-sm text-muted">
-            <Link href="/read/" className="font-medium hover:text-ink">
-              My edition
+        <header className="mx-auto w-full max-w-6xl px-6">
+          <div className="kicker flex items-center justify-between gap-4 py-2 text-[11px] text-muted">
+            <span>Vol. I</span>
+            <span className="hidden sm:inline">
+              <Dateline />
+            </span>
+            <span>Price: Free</span>
+          </div>
+          <div className="rule-double" />
+          <div className="flex items-center justify-between py-3">
+            <Link href="/" className="font-nameplate text-3xl leading-none">
+              {APP_NAME}
             </Link>
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-ink">
-              GitHub ↗
-            </a>
-          </nav>
+            <nav className="kicker flex items-center gap-5 text-xs">
+              <Link href="/read/" className="hover:text-accent">
+                My edition
+              </Link>
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-accent">
+                GitHub ↗
+              </a>
+            </nav>
+          </div>
+          <div className="border-t border-ink" />
         </header>
         <main className="flex-1">{children}</main>
-        <footer className="mt-16 border-t border-line">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-muted sm:flex-row sm:justify-between">
+        <footer className="mx-auto mt-16 w-full max-w-6xl px-6">
+          <div className="rule-double" />
+          <div className="flex flex-col gap-2 py-6 text-sm text-muted sm:flex-row sm:justify-between">
             <p>
-              {APP_NAME} is free and open source. Headlines via Google News; every story links to its original publisher.
+              <span className="font-nameplate text-base text-ink">{APP_NAME}</span> is free and open source. Headlines via Google News; every
+              story links to its original publisher.
             </p>
-            <p>Built with Next.js, GitHub Actions &amp; GitHub Pages</p>
+            <p className="kicker text-xs">Built with Next.js, GitHub Actions &amp; GitHub Pages</p>
           </div>
         </footer>
       </body>

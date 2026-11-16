@@ -1,4 +1,4 @@
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Personal Press";
+export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Extra Extra";
 
 export const GITHUB_URL = "https://github.com/Prestoj01/personal-newsletter";
 

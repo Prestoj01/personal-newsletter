@@ -11,14 +11,14 @@ const VARIANTS: Record<Variant, string> = {
 };
 
 const SIZES: Record<Size, string> = {
-  sm: "px-4 py-2 text-sm",
+  sm: "px-4 py-2 text-xs",
   md: "px-5 py-2.5 text-sm",
   lg: "px-6 py-3 text-base",
 };
 
 /** Class names for anything that should look like a button (buttons, links). */
 export function buttonClass(variant: Variant = "primary", size: Size = "md", extra = "") {
-  return `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition motion-safe:active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${extra}`;
+  return `kicker inline-flex items-center justify-center gap-2 rounded-control font-medium transition motion-safe:active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${extra}`;
 }
 
 export function Button({
@@ -36,7 +36,7 @@ export function Card({ className = "", ...props }: React.HTMLAttributes<HTMLElem
 
 /** Small uppercase label above a group of content. */
 export function Eyebrow({ className = "", ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={`text-xs font-semibold uppercase tracking-widest text-muted ${className}`} {...props} />;
+  return <p className={`kicker text-xs font-medium text-muted ${className}`} {...props} />;
 }
 
 /**

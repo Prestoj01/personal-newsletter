@@ -31,7 +31,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
         <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] tabular-nums text-accent">
           {frequencyInfo(frequency).label} edition{number ? ` · No. ${number}` : ""}
         </p>
-        <h2 className="mt-1.5 text-4xl font-bold leading-tight">{APP_NAME}</h2>
+        <h2 className="mt-1.5 font-nameplate text-5xl leading-tight">{APP_NAME}</h2>
         <p className="mt-2 font-sans text-sm tabular-nums text-muted">
           {date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
         </p>

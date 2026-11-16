@@ -40,7 +40,7 @@ const searchUrl = (query: string, days: number) =>
 async function fetchFeed(url: string, limit: number, attempt = 1): Promise<PackedArticle[]> {
   try {
     const res = await fetch(url, {
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; PersonalPress/1.0; +https://github.com/Prestoj01/personal-newsletter)" },
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; ExtraExtra/1.0; +https://github.com/Prestoj01/personal-newsletter)" },
       signal: AbortSignal.timeout(15000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

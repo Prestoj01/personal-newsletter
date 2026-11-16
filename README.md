@@ -1,8 +1,8 @@
-# Personal Press
+# Extra Extra
 
 **A free, personalized newsletter about exactly the things you care about. It runs entirely on GitHub Pages.**
 
-Pick your interests and hobbies from 40+ topic chips, or type in anything else: a team, a person, a company, a hobby. Then choose daily, weekly, biweekly, or monthly. Personal Press prints a new edition of the latest headlines for those topics on your schedule and keeps an archive of past editions.
+Pick your interests and hobbies from 40+ topic chips, or type in anything else: a team, a person, a company, a hobby. Then choose daily, weekly, biweekly, or monthly. Extra Extra prints a new edition of the latest headlines for those topics on your schedule and keeps an archive of past editions.
 
 - **Live preview.** As you pick topics, you see a real edition built from current news.
 - **No account, no email, no server.** Your picks and past editions live in your browser.
