@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MAX_TOPICS } from "@/lib/config";
+import { flyToPreview } from "@/lib/fly";
 import { Eyebrow, buttonClass, chipClass, inputClass } from "./ui";
 import { CATALOG, TOPIC_GROUPS, emojiFor, isChipTopic, presetFor } from "@/lib/topics";
 
@@ -16,10 +17,11 @@ export function TopicPicker({ selected, onChange }: Props) {
   const atLimit = selected.length >= MAX_TOPICS;
   const customTopics = selected.filter((t) => !isChipTopic(t));
 
-  function toggle(label: string) {
+  function toggle(label: string, el?: HTMLElement) {
     if (selectedKeys.has(label.toLowerCase())) {
       onChange(selected.filter((t) => t.toLowerCase() !== label.toLowerCase()));
     } else if (!atLimit) {
+      if (el) flyToPreview(el);
       onChange([...selected, label]);
     }
   }
@@ -46,7 +48,7 @@ export function TopicPicker({ selected, onChange }: Props) {
                 <button
                   key={t.label}
                   type="button"
-                  onClick={() => toggle(t.label)}
+                  onClick={(e) => toggle(t.label, e.currentTarget)}
                   disabled={!on && atLimit}
                   aria-pressed={on}
                   className={chipClass(on)}

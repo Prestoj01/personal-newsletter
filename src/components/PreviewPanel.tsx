@@ -24,7 +24,7 @@ export function PreviewPanel({ topics: picked, frequency }: { topics: string[]; 
   const updating = !ready && !error;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-card border border-line bg-surface lg:h-[calc(100vh-3rem)]">
+    <div data-fly-target className="flex flex-col overflow-hidden rounded-card border border-line bg-surface lg:h-[calc(100vh-3rem)]">
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5 text-xs font-medium text-muted">
         <span>{isExample ? "Example edition: pick topics to make it yours" : "Live preview"}</span>
         {updating && (

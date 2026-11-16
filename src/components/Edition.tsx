@@ -46,6 +46,8 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
   const withNews = sections.filter((s) => s.articles.length);
   const leadSection = withNews[0];
   const lead = leadSection?.articles[0];
+  let order = 0; // stagger index for the typesetting animation, in reading order
+  const ts = () => ({ "--i": order++ }) as React.CSSProperties;
   const dateStr = date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
 
   return (
@@ -75,7 +77,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
             {leadSection.emoji} {leadSection.topic}
           </p>
           <a href={lead.url} target="_blank" rel="noreferrer" className="group mt-1 block">
-            <h3 className="font-display text-[clamp(1.9rem,7.5cqi,4rem)] uppercase leading-[0.95] tracking-tight group-hover:text-accent">
+            <h3 className="slam font-display text-[clamp(1.9rem,7.5cqi,4rem)] uppercase leading-[0.95] tracking-tight group-hover:text-accent">
               {lead.title}
             </h3>
           </a>
@@ -90,7 +92,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
           if (s === leadSection && articles.length === 0) return null;
           return (
             <section key={s.topic} className="mb-6 break-inside-avoid">
-              <h3 className="kicker flex items-center gap-1.5 border-t-[3px] border-ink pt-1.5 text-[11px] font-semibold text-accent">
+              <h3 className="typeset kicker flex items-center gap-1.5 border-t-[3px] border-ink pt-1.5 text-[11px] font-semibold text-accent" style={ts()}>
                 <span aria-hidden>{s.emoji}</span> {s.topic}
               </h3>
               {articles.length === 0 ? (
@@ -98,7 +100,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
               ) : (
                 <ul className="divide-y divide-line">
                   {articles.map((a, i) => (
-                    <li key={a.url} className="py-3">
+                    <li key={a.url} className="typeset py-3" style={ts()}>
                       <a
                         href={a.url}
                         target="_blank"

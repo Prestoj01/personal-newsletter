@@ -102,7 +102,7 @@ export function NewsletterBuilder() {
           title="Pick your beats"
           dek={`Up to ${MAX_TOPICS} topics: teams, hobbies, people, anything.`}
           aside={
-            <p className={`font-display text-3xl leading-none tabular-nums transition-colors ${topics.length >= MAX_TOPICS ? "text-accent" : "text-ink"}`}>
+            <p data-fly-fallback className={`font-display text-3xl leading-none tabular-nums transition-colors ${topics.length >= MAX_TOPICS ? "text-accent" : "text-ink"}`}>
               {topics.length}
               <span className="text-lg text-muted">/{MAX_TOPICS}</span>
             </p>
