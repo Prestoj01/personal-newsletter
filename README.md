@@ -1,6 +1,8 @@
 # Extra Extra
 
-**A free, personalized newsletter about exactly the things you care about. It runs entirely on GitHub Pages.**
+**A free, personal newspaper about exactly the things you care about. It runs entirely on GitHub Pages.**
+
+Live at **https://prestoj01.github.io/personal-newsletter/**
 
 Pick your interests and hobbies from 40+ topic chips, or type in anything else: a team, a person, a company, a hobby. Then choose daily, weekly, biweekly, or monthly. Extra Extra prints a new edition of the latest headlines for those topics on your schedule and keeps an archive of past editions.
 
@@ -50,6 +52,29 @@ Browsers can't call Google News directly because it doesn't allow cross-origin r
   - If too many feeds fail, the workflow refuses to publish.
   - GitHub pauses scheduled workflows after 60 days of repo inactivity, so the workflow makes an empty commit when needed to keep the schedule running.
 
+## Design
+
+Extra Extra is designed as a printed broadsheet: ink black and press red on newsprint, with square corners and a paper-grain overlay. It uses four typefaces:
+
+- UnifrakturCook for the blackletter nameplate
+- Anton for banner headlines
+- Oswald for labels and datelines
+- Newsreader for reading text
+
+The motion is part of the design, and every piece of it respects `prefers-reduced-motion`:
+
+| Moment | What happens | How |
+| --- | --- | --- |
+| First load | The nameplate stamps in, the double rule prints across, and the banner headline rises line by line. | CSS keyframes |
+| Kinetic headline | "The latest on your ___" flips through real interests. Clicking the word adds that topic. | React + CSS 3D flips |
+| Live ticker | Today's top stories loop in a wire-style band that pauses on hover. | CSS marquee over `ticker.json` |
+| Picking a topic | Its metal-type chip flies on an arc into the live preview, which re-typesets: the lead slams in and stories print in reading order. | Web Animations API (`src/lib/fly.ts`) |
+| Frequency | Rubber stamps thunk down in red ink when selected. | CSS |
+| Print my edition | A printing press: rollers spin, the press shudders, your front page feeds out, and a PRINTED! stamp lands. You can skip it. | `PressOverlay.tsx` |
+| Changing pages | Pages turn like a newspaper, from the right going forward and from the left going back, with the masthead anchored. | React `<ViewTransition>` |
+| Scrolling | A compact masthead slides in, a giant outlined banner scrubs sideways, and sections rise into view. | CSS scroll timelines |
+| Reader | The edition unfolds from the top fold. A countdown "ear" shows the next edition, and past editions sit in "The morgue". | CSS |
+
 ## Run it locally
 
 ```bash
@@ -69,6 +94,6 @@ You don't need any accounts, API keys, or secrets.
 
 ## Tech
 
-Next.js 16 (App Router, static export), React 19, TypeScript, Tailwind CSS 4, GitHub Actions, and GitHub Pages.
+Next.js 16 (App Router, static export, view transitions), React 19, TypeScript, Tailwind CSS 4 (container queries, design tokens), CSS scroll-driven animations, the Web Animations API, GitHub Actions, and GitHub Pages.
 
 Headlines come from Google News RSS, and every story links to its original publisher.
