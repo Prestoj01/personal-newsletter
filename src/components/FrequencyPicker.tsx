@@ -7,10 +7,13 @@ interface Props {
   onChange: (f: Frequency) => void;
 }
 
+/** Each stamp sits a little crooked, like it was inked by hand. */
+const TILTS = ["-3deg", "2deg", "-1.5deg", "3deg"];
+
 export function FrequencyPicker({ value, onChange }: Props) {
   return (
-    <div role="radiogroup" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-      {FREQUENCIES.map((f) => {
+    <div role="radiogroup" aria-label="How often a new edition arrives" className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      {FREQUENCIES.map((f, i) => {
         const on = f.id === value;
         return (
           <button
@@ -19,12 +22,21 @@ export function FrequencyPicker({ value, onChange }: Props) {
             role="radio"
             aria-checked={on}
             onClick={() => onChange(f.id)}
-            className={`rounded-control border p-4 text-left transition ${
-              on ? "border-accent bg-accent-soft ring-2 ring-accent/20" : "border-line-strong bg-surface hover:border-muted"
-            }`}
+            className="group flex flex-col items-center gap-2 py-2 outline-none"
           >
-            <div className="font-semibold text-ink">{f.label}</div>
-            <div className="mt-0.5 text-xs text-muted">{f.description}</div>
+            <span
+              // Re-keying the selected stamp replays the "thunk" each time it's chosen.
+              key={on ? `${f.id}-on` : f.id}
+              style={{ "--tilt": TILTS[i], rotate: TILTS[i] } as React.CSSProperties}
+              className={`stamp flex w-full items-center justify-center px-2 py-3 font-display text-xl uppercase tracking-wide transition-colors ${
+                on
+                  ? "stamp-press bg-accent/10 text-accent"
+                  : "text-ink/60 group-hover:text-ink group-focus-visible:text-ink"
+              }`}
+            >
+              {f.label}
+            </span>
+            <span className={`kicker text-[10px] ${on ? "text-accent" : "text-muted"}`}>{f.description}</span>
           </button>
         );
       })}

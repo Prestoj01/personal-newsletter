@@ -1,5 +1,5 @@
 export const FREQUENCIES = [
-  { id: "daily", label: "Daily", description: "A new edition every day", days: 1 },
+  { id: "daily", label: "Daily", description: "Every day", days: 1 },
   { id: "weekly", label: "Weekly", description: "Once a week", days: 7 },
   { id: "biweekly", label: "Biweekly", description: "Every 2 weeks", days: 14 },
   { id: "monthly", label: "Monthly", description: "Once a month", days: 30 },

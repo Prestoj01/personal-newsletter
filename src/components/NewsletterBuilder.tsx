@@ -9,29 +9,37 @@ import { loadPrefs, savePrefs } from "@/lib/storage";
 import { FrequencyPicker } from "./FrequencyPicker";
 import { PreviewPanel } from "./PreviewPanel";
 import { TopicPicker } from "./TopicPicker";
-import { Button, Card } from "./ui";
+import { Button } from "./ui";
 
 interface StepProps {
   n: number;
   title: string;
+  /** Plain-language description under the section title. */
+  dek: string;
   /** Status shown at the right of the step's header, next to what it describes. */
   aside?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
 }
 
-function Step({ n, title, aside, children, className = "" }: StepProps) {
+/** A builder step, set like a newspaper section: big red numeral, condensed title, rule above. */
+function Step({ n, title, dek, aside, children, className = "" }: StepProps) {
   return (
-    <Card className={`p-6 sm:p-8 ${className}`}>
-      <div className="mb-5 flex items-center justify-between gap-4">
-        <h2 className="flex items-center gap-3 font-serif text-2xl text-ink">
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink font-sans text-sm font-semibold text-white">{n}</span>
-          {title}
-        </h2>
-        {aside && <p className="shrink-0 text-sm tabular-nums text-muted transition-colors">{aside}</p>}
+    <section className={`rule-double pt-5 ${className}`}>
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div className="flex items-start gap-4">
+          <span className="font-display text-6xl leading-[0.8] text-accent" aria-hidden>
+            {n}
+          </span>
+          <div>
+            <h2 className="font-display text-3xl uppercase leading-none tracking-wide text-ink">{title}</h2>
+            <p className="mt-1 font-serif text-base text-muted">{dek}</p>
+          </div>
+        </div>
+        {aside && <div className="shrink-0 pt-1">{aside}</div>}
       </div>
       {children}
-    </Card>
+    </section>
   );
 }
 
@@ -84,23 +92,32 @@ export function NewsletterBuilder() {
     router.push("/read/");
   }
 
-  const count = topics.length ? ` with ${topics.length} topic${topics.length === 1 ? "" : "s"}` : "";
-  const ctaLabel = `${existing ? "Update my newsletter" : "Create my newsletter"}${count} →`;
+  const ctaLabel = `${existing ? "Reprint my edition" : "Print my edition"} →`;
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-      <div className="space-y-6">
-        <Step n={1} title={`Pick up to ${MAX_TOPICS} topics`} aside={<span className={topics.length >= MAX_TOPICS ? "font-semibold text-accent" : ""}>{`${topics.length} of ${MAX_TOPICS}`}</span>}>
+      <div className="space-y-10">
+        <Step
+          n={1}
+          title="Pick your beats"
+          dek={`Up to ${MAX_TOPICS} topics: teams, hobbies, people, anything.`}
+          aside={
+            <p className={`font-display text-3xl leading-none tabular-nums transition-colors ${topics.length >= MAX_TOPICS ? "text-accent" : "text-ink"}`}>
+              {topics.length}
+              <span className="text-lg text-muted">/{MAX_TOPICS}</span>
+            </p>
+          }
+        >
           <TopicPicker selected={topics} onChange={setTopics} />
         </Step>
 
-        <Step n={2} title="Choose how often a new edition arrives">
+        <Step n={2} title="Set your print run" dek="How often a new edition arrives.">
           <FrequencyPicker value={frequency} onChange={setFrequency} />
         </Step>
 
-        <Step n={3} title={existing ? "Save your changes" : "Create your newsletter"} className="border-accent/40 bg-accent-soft">
+        <Step n={3} title={existing ? "Reprint your paper" : "Go to press"} dek={existing ? "Save your changes and print a fresh edition." : "Print your first edition right now."}>
           <div ref={ctaRef}>
-            <Button size="lg" onClick={start} disabled={topics.length === 0} className="w-full py-4 text-lg">
+            <Button variant="press" size="xl" onClick={start} disabled={topics.length === 0} className="w-full">
               {ctaLabel}
             </Button>
           </div>
@@ -120,8 +137,8 @@ export function NewsletterBuilder() {
         <>
           {/* Spacer so the fixed bar never covers the end of the page. */}
           <div className="h-20 lg:hidden" aria-hidden />
-          <div className="fixed inset-x-0 bottom-0 z-10 border-t border-line bg-surface/95 p-3 backdrop-blur lg:hidden">
-            <Button size="lg" onClick={start} className="w-full">
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t-4 border-ink bg-paper/95 p-3 backdrop-blur lg:hidden">
+            <Button variant="press" size="lg" onClick={start} className="w-full font-display text-xl">
               {ctaLabel}
             </Button>
           </div>

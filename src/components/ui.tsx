@@ -1,10 +1,12 @@
 /** Shared UI primitives. Components compose these instead of re-declaring styles. */
 
-type Variant = "primary" | "secondary" | "ghost" | "danger";
-type Size = "sm" | "md" | "lg";
+type Variant = "primary" | "press" | "secondary" | "ghost" | "danger";
+type Size = "sm" | "md" | "lg" | "xl";
 
 const VARIANTS: Record<Variant, string> = {
   primary: "bg-accent text-white hover:bg-accent-strong",
+  /** The heavy ink bar used for "go to press" actions. */
+  press: "press-button bg-ink text-paper hover:bg-accent",
   secondary: "border border-ink text-ink hover:bg-ink hover:text-white",
   ghost: "text-accent hover:bg-accent-soft",
   danger: "border border-danger text-danger hover:bg-danger hover:text-white",
@@ -14,6 +16,7 @@ const SIZES: Record<Size, string> = {
   sm: "px-4 py-2 text-xs",
   md: "px-5 py-2.5 text-sm",
   lg: "px-6 py-3 text-base",
+  xl: "px-6 py-5 font-display text-2xl tracking-wide",
 };
 
 /** Class names for anything that should look like a button (buttons, links). */
@@ -40,16 +43,16 @@ export function Eyebrow({ className = "", ...props }: React.HTMLAttributes<HTMLP
 }
 
 /**
- * Selectable pill used for topics. Chips lead with an emoji whose glyph carries its own side
- * bearing, so the left padding is optically trimmed to look equal to the right.
+ * Topic chip, styled as a block of metal type: it lifts off the page with an ink-offset shadow
+ * on hover and presses flat when chosen. The emoji's own side bearing means the left padding
+ * is optically trimmed so the label looks centered.
  */
 export function chipClass(on: boolean) {
-  return `rounded-full border py-1.5 pl-3 pr-3.5 text-sm transition motion-safe:active:scale-95 ${
-    on
-      ? "border-accent bg-accent text-white"
-      : "border-line-strong bg-surface text-ink hover:border-muted disabled:cursor-not-allowed disabled:opacity-40"
+  return `type-block kicker border py-1.5 pl-2.5 pr-3 text-[12px] font-medium ${
+    on ? "is-on border-ink bg-ink text-paper" : "border-ink/70 bg-surface text-ink disabled:cursor-not-allowed disabled:opacity-35"
   }`;
 }
 
+/** Input written on the page: just a baseline rule, which turns red while typing. */
 export const inputClass =
-  "min-w-0 flex-1 rounded-full border border-line-strong bg-surface px-4 py-2 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20";
+  "min-w-0 flex-1 border-0 border-b-2 border-ink bg-transparent px-1 py-2 font-serif text-lg outline-none placeholder:text-muted/70 focus:border-accent";

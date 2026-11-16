@@ -35,7 +35,7 @@ export function TopicPicker({ selected, onChange }: Props) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {TOPIC_GROUPS.map((group) => (
         <div key={group.name}>
           <Eyebrow className="mb-2">{group.name}</Eyebrow>
@@ -74,7 +74,7 @@ export function TopicPicker({ selected, onChange }: Props) {
           <button
             type="submit"
             disabled={atLimit || custom.trim().length < 2}
-            className={buttonClass("secondary", "sm")}
+            className={buttonClass("press", "sm")}
           >
             Add
           </button>
