@@ -109,14 +109,15 @@ export function Reader() {
             ← Back to the latest edition
           </button>
         )}
-        <Edition
-          key={shown.key}
+        <div key={shown.key} className="unfold">
+          <Edition
           sections={shown.sections}
           frequency={shown.frequency}
           date={fromDateKey(shown.key)}
           number={shown.number}
           asOf={shown.newsAsOf}
-        />
+          />
+        </div>
       </div>
 
       <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start">

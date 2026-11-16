@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MAX_TOPICS } from "@/lib/config";
 import { ADD_TOPIC_EVENT } from "@/lib/events";
 import { toDateKey, type Frequency } from "@/lib/frequency";
 import { loadPrefs, savePrefs } from "@/lib/storage";
 import { FrequencyPicker } from "./FrequencyPicker";
+import { PressOverlay } from "./PressOverlay";
 import { PreviewPanel } from "./PreviewPanel";
 import { TopicPicker } from "./TopicPicker";
 import { Button } from "./ui";
@@ -50,6 +51,7 @@ export function NewsletterBuilder() {
   const [existing, setExisting] = useState(false);
   const ctaRef = useRef<HTMLDivElement>(null);
   const [ctaVisible, setCtaVisible] = useState(true);
+  const [printing, setPrinting] = useState(false);
 
   // On small screens the main button can be far below the topic list; mirror it in a sticky bar until it's on screen.
   useEffect(() => {
@@ -89,8 +91,15 @@ export function NewsletterBuilder() {
       prev && prev.frequency === frequency && prev.topics.length === topics.length && prev.topics.every((t, i) => t === topics[i]);
     // Changing anything starts a fresh schedule (and a new edition) today.
     savePrefs({ topics, frequency, startedAt: unchanged ? prev.startedAt : toDateKey(new Date()) });
-    router.push("/read/");
+    router.prefetch("/read/");
+    setPrinting(true);
   }
+
+  const goToEdition = useCallback(() => {
+    // Open the fresh edition at its masthead, not at the scroll position of the builder.
+    window.scrollTo({ top: 0, behavior: "instant" });
+    router.push("/read/");
+  }, [router]);
 
   const ctaLabel = `${existing ? "Reprint my edition" : "Print my edition"} →`;
 
@@ -132,6 +141,8 @@ export function NewsletterBuilder() {
       <div className="lg:sticky lg:top-6 lg:self-start">
         <PreviewPanel topics={topics} frequency={frequency} />
       </div>
+
+      {printing && <PressOverlay topics={topics} frequency={frequency} onDone={goToEdition} />}
 
       {topics.length > 0 && !ctaVisible && (
         <>
