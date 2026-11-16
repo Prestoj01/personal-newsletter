@@ -46,6 +46,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="mx-auto w-full max-w-6xl px-6">
           <Ticker />
         </div>
+        {/* Compact masthead that slides in once the main one scrolls away (scroll-driven CSS). */}
+        <div className="sticky-masthead fixed inset-x-0 top-0 z-40 border-b-4 border-double border-ink bg-paper/95 backdrop-blur" aria-hidden>
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
+            <Link href="/" tabIndex={-1} className="font-nameplate text-2xl leading-none">
+              {APP_NAME}
+            </Link>
+            <span className="kicker hidden text-[11px] text-muted sm:inline">
+              <Dateline />
+            </span>
+            <Link href="/read/" tabIndex={-1} className="kicker text-xs hover:text-accent">
+              My edition →
+            </Link>
+          </div>
+        </div>
         <main className="flex-1">{children}</main>
         <footer className="mx-auto mt-16 w-full max-w-6xl px-6">
           <div className="rule-double" />

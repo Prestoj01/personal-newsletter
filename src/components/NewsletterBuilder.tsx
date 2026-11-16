@@ -138,7 +138,7 @@ export function NewsletterBuilder() {
         </Step>
       </div>
 
-      <div className="lg:sticky lg:top-6 lg:self-start">
+      <div className="lg:sticky lg:top-16 lg:self-start">
         <PreviewPanel topics={topics} frequency={frequency} />
       </div>
 
