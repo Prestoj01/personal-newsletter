@@ -98,7 +98,7 @@ export function NewsletterBuilder() {
   const goToEdition = useCallback(() => {
     // Open the fresh edition at its masthead, not at the scroll position of the builder.
     window.scrollTo({ top: 0, behavior: "instant" });
-    router.push("/read/");
+    router.push("/read/", { transitionTypes: ["nav-forward"] });
   }, [router]);
 
   const ctaLabel = `${existing ? "Reprint my edition" : "Print my edition"} →`;

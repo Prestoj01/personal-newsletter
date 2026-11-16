@@ -156,6 +156,68 @@ body::after {
 }
 
 /*
+ * Page turns between routes (React <ViewTransition>, see components/PageTurn.tsx).
+ * The masthead and ticker are anchored so only the page itself moves.
+ */
+::view-transition-group(site-header),
+::view-transition-group(site-ticker) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(site-ticker) {
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(site-ticker) {
+  animation: none;
+}
+/*
+ * The incoming page is always painted above the outgoing one, so the turn happens on the
+ * new page: it flips onto the stack from the right (forward) or the left (back) while the
+ * page underneath dims as it's covered.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-new(.turn-forward) {
+    transform-origin: 100% 50%;
+    animation: turn-in-right 700ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+  ::view-transition-new(.turn-back) {
+    transform-origin: 0% 50%;
+    animation: turn-in-left 700ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+  ::view-transition-old(.turn-forward),
+  ::view-transition-old(.turn-back) {
+    animation: covered 700ms ease-in both;
+  }
+}
+@keyframes turn-in-right {
+  from {
+    transform: perspective(2400px) rotateY(95deg);
+    filter: brightness(0.6) drop-shadow(-20px 0 30px rgb(0 0 0 / 0.4));
+  }
+  70% {
+    filter: brightness(0.97) drop-shadow(-10px 0 20px rgb(0 0 0 / 0.25));
+  }
+}
+@keyframes turn-in-left {
+  from {
+    transform: perspective(2400px) rotateY(-95deg);
+    filter: brightness(0.6) drop-shadow(20px 0 30px rgb(0 0 0 / 0.4));
+  }
+  70% {
+    filter: brightness(0.97) drop-shadow(10px 0 20px rgb(0 0 0 / 0.25));
+  }
+}
+@keyframes covered {
+  to {
+    transform: scale(0.96);
+    filter: brightness(0.55);
+    opacity: 0;
+  }
+}
+
+/*
  * Scroll-driven motion (CSS scroll timelines, no JS). Browsers without support or with
  * reduced motion simply show the content in place, and the sticky masthead stays hidden.
  */

@@ -20,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${newsreader.variable} ${anton.variable} ${oswald.variable} ${unifraktur.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
-        <header className="mx-auto w-full max-w-6xl px-6">
+        <header className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-header]">
           <div className="kicker flex items-center justify-between gap-4 py-2 text-[11px] text-muted">
             <span>Vol. I</span>
             <span className="hidden sm:inline">
@@ -30,11 +30,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
           <div className="rule-double intro-rule" />
           <div className="flex items-center justify-between py-3">
-            <Link href="/" className="intro-stamp font-nameplate text-3xl leading-none">
+            <Link href="/" transitionTypes={["nav-back"]} className="intro-stamp font-nameplate text-3xl leading-none">
               {APP_NAME}
             </Link>
             <nav className="kicker flex items-center gap-5 text-xs">
-              <Link href="/read/" className="hover:text-accent">
+              <Link href="/read/" transitionTypes={["nav-forward"]} className="hover:text-accent">
                 My edition
               </Link>
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-accent">
@@ -43,19 +43,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </nav>
           </div>
         </header>
-        <div className="mx-auto w-full max-w-6xl px-6">
+        <div className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-ticker]">
           <Ticker />
         </div>
         {/* Compact masthead that slides in once the main one scrolls away (scroll-driven CSS). */}
         <div className="sticky-masthead fixed inset-x-0 top-0 z-40 border-b-4 border-double border-ink bg-paper/95 backdrop-blur" aria-hidden>
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
-            <Link href="/" tabIndex={-1} className="font-nameplate text-2xl leading-none">
+            <Link href="/" transitionTypes={["nav-back"]} tabIndex={-1} className="font-nameplate text-2xl leading-none">
               {APP_NAME}
             </Link>
             <span className="kicker hidden text-[11px] text-muted sm:inline">
               <Dateline />
             </span>
-            <Link href="/read/" tabIndex={-1} className="kicker text-xs hover:text-accent">
+            <Link href="/read/" transitionTypes={["nav-forward"]} tabIndex={-1} className="kicker text-xs hover:text-accent">
               My edition →
             </Link>
           </div>

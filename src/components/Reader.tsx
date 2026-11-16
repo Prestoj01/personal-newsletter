@@ -75,7 +75,7 @@ export function Reader() {
       <div className="mx-auto max-w-xl px-6 py-16 text-center">
         <h1 className="font-serif text-4xl">No newsletter yet</h1>
         <p className="mt-4 text-muted">Pick your topics and how often you want a new edition. It only takes a few seconds.</p>
-        <Link href="/" className={buttonClass("primary", "lg", "mt-8")}>
+        <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("primary", "lg", "mt-8")}>
           Create my newsletter
         </Link>
       </div>
@@ -137,7 +137,7 @@ export function Reader() {
           >
             {reminderSaved ? <span className="motion-safe:animate-pop-in">✓ Reminder downloaded</span> : "Add reminders to my calendar"}
           </Button>
-          <Link href="/" className={buttonClass("ghost", "sm", "mt-2 w-full")}>
+          <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("ghost", "sm", "mt-2 w-full")}>
             Edit topics or frequency
           </Link>
         </Card>
