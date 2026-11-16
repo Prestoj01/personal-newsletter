@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Anton, Newsreader, Oswald, UnifrakturCook } from "next/font/google";
 import Link from "next/link";
 import { Dateline } from "@/components/Dateline";
+import { Ticker } from "@/components/Ticker";
 import { APP_NAME, GITHUB_URL } from "@/lib/config";
 import "./globals.css";
 
@@ -41,8 +42,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </a>
             </nav>
           </div>
-          <div className="border-t border-ink" />
         </header>
+        <div className="mx-auto w-full max-w-6xl px-6">
+          <Ticker />
+        </div>
         <main className="flex-1">{children}</main>
         <footer className="mx-auto mt-16 w-full max-w-6xl px-6">
           <div className="rule-double" />

@@ -46,6 +46,11 @@
       opacity: 0;
     }
   }
+  @keyframes ticker {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 :root {
@@ -88,6 +93,19 @@ body::after {
 }
 
 @layer components {
+  /* Headline ticker: slide the doubled track by half its width, forever. */
+  .ticker-track {
+    animation: ticker linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+      animation: none;
+    }
+  }
+  .ticker-mask {
+    mask-image: linear-gradient(to right, transparent, black 2rem, black calc(100% - 4rem), transparent);
+  }
+
   /* Classic newspaper double rule: thick over thin. */
   .rule-double {
     border-top: 4px solid var(--color-ink);

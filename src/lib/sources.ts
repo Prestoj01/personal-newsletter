@@ -10,7 +10,7 @@ export interface EditionSources {
 
 const cache = new Map<string, Promise<unknown>>();
 
-function getJson<T>(path: string): Promise<T> {
+export function getJson<T>(path: string): Promise<T> {
   let p = cache.get(path) as Promise<T> | undefined;
   if (!p) {
     p = fetch(`${BASE_PATH}/data/${path}`).then((r) => {

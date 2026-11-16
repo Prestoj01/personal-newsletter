@@ -12,7 +12,7 @@ import { XMLParser } from "fast-xml-parser";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { ALL_TOPICS, queryFor, topicSlug } from "../src/lib/topics";
-import { SECTIONS_SLUG, WINDOWS, packUrl, type PackedArticle, type SearchFile, type TopicFile, type Window } from "../src/lib/news-data";
+import { SECTIONS_SLUG, WINDOWS, packUrl, type PackedArticle, type SearchFile, type TickerFile, type TopicFile, type Window } from "../src/lib/news-data";
 
 const PER_LIST = 15;
 const CONCURRENCY = 5;
@@ -114,6 +114,10 @@ async function main() {
   await pool(SECTION_FEEDS, async (url) => {
     sections.push(...(await fetchFeed(url, 100).catch(() => [])));
   });
+  const ticker: TickerFile = {
+    generatedAt,
+    headlines: (await fetchFeed(SECTION_FEEDS[0], 24).catch(() => [])).filter((a) => a[0].length <= 110),
+  };
 
   console.log(`Fetched ${jobs.length - failed}/${jobs.length} topic feeds (${reused} reused from previous data).`);
   if (failed > jobs.length / 3) {
@@ -147,6 +151,7 @@ async function main() {
     bytes += json.length;
     await writeFile(path.join(OUT_DIR, "topics", `${slug}.json`), json);
   }
+  await writeFile(path.join(OUT_DIR, "ticker.json"), JSON.stringify(ticker));
   const searchJson = JSON.stringify(search);
   await writeFile(path.join(OUT_DIR, "search.json"), searchJson);
   console.log(
