@@ -4,14 +4,28 @@
 
 **A free, personal newspaper about exactly the things you care about. It runs entirely on GitHub Pages.**
 
-Live at **https://prestoj01.github.io/personal-newsletter/**
+**[Open the live site →](https://prestoj01.github.io/personal-newsletter/)** · **[Read a sample paper →](https://prestoj01.github.io/personal-newsletter/read/?beats=artificial-intelligence,nba,space-exploration,coffee,taylor-swift,formula-1&run=weekly)**
 
-Pick your interests and hobbies from 40+ topic chips, or type in anything else: a team, a person, a company, a hobby. Then choose daily, weekly, biweekly, or monthly. Extra Extra prints a new edition of the latest headlines for those topics on your schedule and keeps an archive of past editions.
+<p align="center">
+  <img src="docs/images/demo.gif" alt="Picking topics flies them into a live preview; printing runs a printing press and unfolds the new edition" width="720">
+</p>
 
-- **Live preview.** As you pick topics, you see a real edition built from current news.
-- **No account, no email, no server.** Your picks and past editions live in your browser.
+Pick your interests from 40+ topic chips, or type in anything else: a team, a person, a company, a hobby. Then choose daily, weekly, biweekly, or monthly. Extra Extra prints a new edition of the latest headlines for those topics on your schedule and keeps an archive of past editions.
+
+- **Live preview.** As you pick topics, a real edition built from current news typesets itself next to the builder.
+- **No account, no email, no server.** Your picks, past editions and clippings live in your browser.
+- **Shareable papers.** Every paper is a link. Anyone who opens it gets the same paper with today's news.
+- **Clippings.** Cut stories out of any edition into a scrapbook.
 - **Calendar reminders.** One click downloads a recurring `.ics` reminder that matches your frequency.
 - **Costs $0 to run.** It's a static site, and the headlines are refreshed by a scheduled GitHub Action.
+
+| Your edition | The scrapbook |
+| --- | --- |
+| ![A personal front page with a banner lead story, newspaper columns and a countdown to the next edition](docs/images/front-page.png) | ![Clipped stories pinned up as taped cut-outs with pinking-shear edges](docs/images/scrapbook.png) |
+
+| The builder | On a phone |
+| --- | --- |
+| ![The kinetic headline "The latest on your Mars missions." above the topic builder and live preview](docs/images/home.png) | <img src="docs/images/phone.png" alt="The home page on a phone" width="260"> |
 
 ## How it works
 
