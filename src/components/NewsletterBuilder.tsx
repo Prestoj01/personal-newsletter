@@ -5,9 +5,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { MAX_TOPICS } from "@/lib/config";
 import { ADD_TOPIC_EVENT } from "@/lib/events";
 import { toDateKey, type Frequency } from "@/lib/frequency";
+import { parseShare } from "@/lib/share";
 import { loadPrefs, savePrefs } from "@/lib/storage";
 import { FrequencyPicker } from "./FrequencyPicker";
 import { PressOverlay } from "./PressOverlay";
+import { ShareButton } from "./ShareButton";
 import { PreviewPanel } from "./PreviewPanel";
 import { TopicPicker } from "./TopicPicker";
 import { Button } from "./ui";
@@ -65,11 +67,15 @@ export function NewsletterBuilder() {
   // Returning readers edit their saved newsletter (localStorage is only available after mount).
   useEffect(() => {
     const prefs = loadPrefs();
-    if (!prefs) return;
+    // A "customize this paper" link (/?beats=…) prefills the builder ahead of saved preferences.
+    const shared = parseShare(new URLSearchParams(window.location.search));
+    const initial = shared ?? prefs;
     /* eslint-disable react-hooks/set-state-in-effect */
-    setTopics(prefs.topics);
-    setFrequency(prefs.frequency);
-    setExisting(true);
+    if (prefs) setExisting(true);
+    if (initial) {
+      setTopics(initial.topics);
+      setFrequency(initial.frequency);
+    }
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
@@ -135,6 +141,7 @@ export function NewsletterBuilder() {
               ? "Pick at least one topic to continue."
               : "No account or email needed. Your picks are saved in this browser, and a new edition appears here on your schedule."}
           </p>
+          {topics.length > 0 && <ShareButton paper={{ topics, frequency }} variant="ghost" className="mt-2 px-0" />}
         </Step>
       </div>
 

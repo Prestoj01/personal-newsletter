@@ -7,6 +7,7 @@ import { buildSections } from "@/lib/edition";
 import { currentEdition, frequencyInfo, fromDateKey, type EditionSlot } from "@/lib/frequency";
 import { clearAll, loadEditions, loadPrefs, saveEdition, type Prefs, type StoredEdition } from "@/lib/storage";
 import { Edition, EditionSkeleton } from "./Edition";
+import { ShareButton } from "./ShareButton";
 import { useEditionSources } from "./useEditionSources";
 import { Button, Eyebrow, buttonClass } from "./ui";
 
@@ -148,7 +149,8 @@ export function Reader() {
           >
             {reminderSaved ? <span className="motion-safe:animate-pop-in">✓ Reminder downloaded</span> : "Add reminders to my calendar"}
           </Button>
-          <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("ghost", "sm", "mt-2 w-full")}>
+          <ShareButton paper={current} variant="ghost" className="mt-2 w-full" />
+          <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("ghost", "sm", "w-full")}>
             Edit topics or frequency
           </Link>
         </section>

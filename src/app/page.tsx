@@ -1,6 +1,14 @@
+import Link from "next/link";
 import { KineticHeadline } from "@/components/KineticHeadline";
 import { NewsletterBuilder } from "@/components/NewsletterBuilder";
 import { PageTurn } from "@/components/PageTurn";
+import { encodeShare, type SharedPaper } from "@/lib/share";
+
+/** A ready-made paper for visitors who want to see the product before choosing anything. */
+const SAMPLE_PAPER: SharedPaper = {
+  topics: ["Artificial Intelligence", "NBA", "Space Exploration", "Coffee", "Taylor Swift", "Formula 1"],
+  frequency: "weekly",
+};
 
 const INSIDE = [
   {
@@ -36,13 +44,22 @@ export default function Home() {
                 want a new edition, and get a personal newspaper with the latest
                 on exactly those topics. No account, no email, no clutter.
               </p>
-              <a
-                href="#builder"
-                className="kicker inline-flex items-center gap-2 text-xs font-semibold hover:text-accent"
-              >
-                Build your paper{" "}
-                <span className="motion-safe:animate-bounce">↓</span>
-              </a>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                <a
+                  href="#builder"
+                  className="kicker inline-flex items-center gap-2 text-xs font-semibold hover:text-accent"
+                >
+                  Build your paper{" "}
+                  <span className="motion-safe:animate-bounce">↓</span>
+                </a>
+                <Link
+                  href={`/read/?${encodeShare(SAMPLE_PAPER)}`}
+                  transitionTypes={["nav-forward"]}
+                  className="kicker text-xs font-semibold text-accent hover:underline"
+                >
+                  Just looking? Read a sample →
+                </Link>
+              </div>
             </div>
           </section>
 

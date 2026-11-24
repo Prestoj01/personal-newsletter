@@ -26,6 +26,8 @@ interface Props {
   asOf: string;
   /** Set when rendered inside another card, so its corners nest correctly. */
   inset?: boolean;
+  /** Overrides the dateline's edition number, e.g. "Shared paper". */
+  badge?: string;
 }
 
 function Byline({ article, now }: { article: Article; now: number }) {
@@ -41,7 +43,7 @@ function Byline({ article, now }: { article: Article; now: number }) {
  * every topic flowing through newspaper columns. Column count follows the space available
  * (container queries), so the same component works in the narrow preview and the full reader.
  */
-export function Edition({ sections, frequency, date, number, asOf, inset = false }: Props) {
+export function Edition({ sections, frequency, date, number, asOf, inset = false, badge }: Props) {
   const now = new Date(asOf).getTime();
   const withNews = sections.filter((s) => s.articles.length);
   const leadSection = withNews[0];
@@ -57,7 +59,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
       {/* Masthead */}
       <header className="text-center">
         <div className="kicker flex items-center justify-between gap-2 border-b border-ink pb-1.5 text-[10px] tabular-nums text-muted">
-          <span>{number ? `No. ${number}` : "Preview"}</span>
+          <span>{badge ?? (number ? `No. ${number}` : "Preview")}</span>
           <span className="hidden @md:inline">{dateStr}</span>
           <span>{frequencyInfo(frequency).label} edition</span>
         </div>
