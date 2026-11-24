@@ -3,7 +3,8 @@ import { Anton, Newsreader, Oswald, UnifrakturCook } from "next/font/google";
 import Link from "next/link";
 import { Dateline } from "@/components/Dateline";
 import { Ticker } from "@/components/Ticker";
-import { APP_NAME, GITHUB_URL } from "@/lib/config";
+import { SOCIAL_CARD_ALT } from "@/lib/brand-images";
+import { APP_NAME, BASE_PATH, GITHUB_URL, SITE_URL } from "@/lib/config";
 import "./globals.css";
 
 const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], axes: ["opsz"] });
@@ -11,9 +12,25 @@ const anton = Anton({ variable: "--font-anton", subsets: ["latin"], weight: "400
 const oswald = Oswald({ variable: "--font-oswald", subsets: ["latin"] });
 const unifraktur = UnifrakturCook({ variable: "--font-unifraktur", subsets: ["latin"], weight: "700" });
 
+const DESCRIPTION = "Pick your interests and hobbies, choose how often, and get a free personal newspaper with the latest headlines on just those topics.";
+
 export const metadata: Metadata = {
+  // Absolute base for social-card URLs (GitHub Pages serves under /personal-newsletter).
+  metadataBase: new URL(`${SITE_URL}/`),
   title: `${APP_NAME}: a free newspaper about your teams, hobbies and interests`,
-  description: "Pick your interests and hobbies, choose how often, and get a free personal newspaper with the latest headlines on just those topics.",
+  description: DESCRIPTION,
+  icons: {
+    icon: [{ url: `${BASE_PATH}/brand/icon.png`, type: "image/png", sizes: "64x64" }],
+    apple: [{ url: `${BASE_PATH}/brand/apple-icon.png`, sizes: "180x180" }],
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: `${APP_NAME}: the news you care about, nothing else`,
+    description: DESCRIPTION,
+    images: [{ url: "brand/social-card.png", width: 1200, height: 630, alt: SOCIAL_CARD_ALT }],
+  },
+  twitter: { card: "summary_large_image", images: ["brand/social-card.png"] },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
