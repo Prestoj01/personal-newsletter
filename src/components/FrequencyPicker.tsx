@@ -30,7 +30,7 @@ export function FrequencyPicker({ value, onChange }: Props) {
               style={{ "--tilt": TILTS[i], rotate: TILTS[i] } as React.CSSProperties}
               className={`stamp flex w-full items-center justify-center px-2 py-3 font-display text-xl uppercase tracking-wide transition-colors ${
                 on
-                  ? "stamp-press bg-accent/10 text-accent"
+                  ? "stamp-press bg-accent/10 text-accent-strong"
                   : "text-ink/60 group-hover:text-ink group-focus-visible:text-ink"
               }`}
             >

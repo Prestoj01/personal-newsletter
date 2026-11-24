@@ -1,8 +1,12 @@
-name: Refresh news & deploy to GitHub Pages
+name: Test & deploy
 
+# push / manual: test, then build with fresh headlines and deploy (only if tests pass)
+# pull request:  test only
+# schedule:      refresh headlines and redeploy (code hasn't changed, so tests are skipped)
 on:
   push:
     branches: [main]
+  pull_request:
   schedule:
     - cron: "23 */6 * * *" # every 6 hours: fresh headlines
   workflow_dispatch:
@@ -13,11 +17,53 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.ref) || 'pages' }}
   cancel-in-progress: false
 
 jobs:
+  test:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx next typegen && npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test
+
+      # Browser tests run on deterministic fixture headlines, never live Google News.
+      - name: Build with fixture data
+        run: npm run fixtures && npm run build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser tests (desktop + phone, incl. accessibility)
+        run: npm run test:e2e
+
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
+
   build:
+    needs: test
+    # Runs after tests pass, or on schedules where tests were skipped. Never for pull requests.
+    if: ${{ !cancelled() && github.event_name != 'pull_request' && (needs.test.result == 'success' || needs.test.result == 'skipped') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -63,6 +109,7 @@ jobs:
 
   deploy:
     needs: build
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

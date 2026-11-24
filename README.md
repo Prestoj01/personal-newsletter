@@ -1,5 +1,7 @@
 # Extra Extra
 
+[![Test & deploy](https://github.com/Prestoj01/personal-newsletter/actions/workflows/deploy.yml/badge.svg)](https://github.com/Prestoj01/personal-newsletter/actions/workflows/deploy.yml)
+
 **A free, personal newspaper about exactly the things you care about. It runs entirely on GitHub Pages.**
 
 Live at **https://prestoj01.github.io/personal-newsletter/**
@@ -83,6 +85,20 @@ npm run dev      # fetches headlines on first run, then opens http://localhost:3
 ```
 
 Run `npm run fetch-news` any time to refresh the local headlines.
+
+## Tests
+
+```bash
+npm test                                  # 26 unit tests (Vitest)
+npm run fixtures && npm run build         # build against deterministic sample headlines
+npm run test:e2e                          # 20 browser tests (Playwright, desktop + phone)
+```
+
+- **Unit tests** cover the logic that's easy to get subtly wrong: edition numbering (including month-end clamping), look-back cutoffs and cross-topic de-duplication, free-text matching priority, share-link encoding, topic aliases, and the clippings store.
+- **Browser tests** run the real flows on desktop and phone sizes: building and printing a paper, the kinetic headline, sample and shared papers, clipping to the scrapbook, and reduced motion. An [axe](https://github.com/dequelabs/axe-core) scan of every page fails on any serious WCAG A/AA violation.
+- **CI** runs lint, typecheck, unit tests and browser tests on every push and pull request. The deploy happens only if they pass. Scheduled headline refreshes skip the tests, because the code hasn't changed.
+
+`npm run fixtures` overwrites `public/data` with sample headlines. Run `npm run fetch-news` afterward to get real headlines back.
 
 ## Deploy to GitHub Pages
 
