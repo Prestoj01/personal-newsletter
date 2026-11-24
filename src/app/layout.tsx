@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Anton, Newsreader, Oswald, UnifrakturCook } from "next/font/google";
 import Link from "next/link";
+import { ClippingsLink } from "@/components/ClippingsLink";
 import { Dateline } from "@/components/Dateline";
 import { Ticker } from "@/components/Ticker";
 import { SOCIAL_CARD_ALT } from "@/lib/brand-images";
@@ -47,14 +48,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
           <div className="rule-double intro-rule" />
           <div className="flex items-center justify-between py-3">
-            <Link href="/" transitionTypes={["nav-back"]} className="intro-stamp font-nameplate text-3xl leading-none">
+            <Link href="/" transitionTypes={["nav-back"]} className="intro-stamp whitespace-nowrap font-nameplate text-2xl leading-none sm:text-3xl">
               {APP_NAME}
             </Link>
-            <nav className="kicker flex items-center gap-5 text-xs">
+            <nav className="kicker flex items-center gap-4 text-xs sm:gap-5">
               <Link href="/read/" transitionTypes={["nav-forward"]} className="hover:text-accent">
-                My edition
+                <span className="hidden sm:inline">My edition</span>
+                <span className="sm:hidden">Edition</span>
               </Link>
-              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-accent">
+              <ClippingsLink />
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hidden hover:text-accent sm:inline">
                 GitHub ↗
               </a>
             </nav>
@@ -72,9 +75,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <span className="kicker hidden text-[11px] text-muted sm:inline">
               <Dateline />
             </span>
-            <Link href="/read/" transitionTypes={["nav-forward"]} tabIndex={-1} className="kicker text-xs hover:text-accent">
-              My edition →
-            </Link>
+            <span className="kicker flex items-center gap-5 text-xs">
+              <ClippingsLink tabIndex={-1} />
+              <Link href="/read/" transitionTypes={["nav-forward"]} tabIndex={-1} className="hover:text-accent">
+                My edition →
+              </Link>
+            </span>
           </div>
         </div>
         <main className="flex-1">{children}</main>
@@ -85,7 +91,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <span className="font-nameplate text-base text-ink">{APP_NAME}</span> is free and open source. Headlines via Google News; every
               story links to its original publisher.
             </p>
-            <p className="kicker text-xs">Built with Next.js, GitHub Actions &amp; GitHub Pages</p>
+            <p className="kicker text-xs">
+              Built with Next.js, GitHub Actions &amp; GitHub Pages
+              {/* The header hides its GitHub link on phones; it lives here instead. */}
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="mt-2 block text-ink hover:text-accent sm:hidden">
+                Source on GitHub ↗
+              </a>
+            </p>
           </div>
         </footer>
       </body>

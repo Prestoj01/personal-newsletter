@@ -2,6 +2,8 @@ import { APP_NAME } from "@/lib/config";
 import { moreCoverageUrl, type TopicSection } from "@/lib/edition";
 import { frequencyInfo, type Frequency } from "@/lib/frequency";
 import type { Article } from "@/lib/news-data";
+import { ClipButton } from "./ClipButton";
+import { Story } from "./Story";
 
 function relativeTime(iso: string, now: number): string {
   const h = Math.floor(Math.max(0, now - new Date(iso).getTime()) / 3_600_000);
@@ -30,11 +32,15 @@ interface Props {
   badge?: string;
 }
 
-function Byline({ article, now }: { article: Article; now: number }) {
+/** Source and age of a story, with the scissors to clip it at the end of the line. */
+function Byline({ article, topic, now }: { article: Article; topic: string; now: number }) {
   return (
-    <p className="kicker mt-1.5 text-[10px] tabular-nums text-muted">
-      {article.source} · {relativeTime(article.publishedAt, now)}
-    </p>
+    <div className="mt-1.5 flex items-baseline justify-between gap-3">
+      <p className="kicker text-[10px] tabular-nums text-muted">
+        {article.source} · {relativeTime(article.publishedAt, now)}
+      </p>
+      <ClipButton article={article} topic={topic} />
+    </div>
   );
 }
 
@@ -74,7 +80,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
 
       {/* Banner lead story */}
       {lead && (
-        <section className="border-b border-ink py-5">
+        <Story as="section" url={lead.url} className="border-b border-ink py-5">
           <p className="kicker text-[11px] font-semibold text-accent">
             {leadSection.emoji} {leadSection.topic}
           </p>
@@ -83,8 +89,8 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
               {lead.title}
             </h3>
           </a>
-          <Byline article={lead} now={now} />
-        </section>
+          <Byline article={lead} topic={leadSection.topic} now={now} />
+        </Story>
       )}
 
       {/* Everything else, in columns */}
@@ -102,7 +108,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
               ) : (
                 <ul className="divide-y divide-line">
                   {articles.map((a, i) => (
-                    <li key={a.url} className="typeset py-3" style={ts()}>
+                    <Story key={a.url} url={a.url} className="typeset py-3" style={ts()}>
                       <a
                         href={a.url}
                         target="_blank"
@@ -111,8 +117,8 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
                       >
                         {a.title}
                       </a>
-                      <Byline article={a} now={now} />
-                    </li>
+                      <Byline article={a} topic={s.topic} now={now} />
+                    </Story>
                   ))}
                 </ul>
               )}
