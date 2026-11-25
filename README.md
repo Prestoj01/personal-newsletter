@@ -16,6 +16,10 @@ Pick your interests from 40+ topic chips, or type in anything else: a team, a pe
 - **No account, no email, no server.** Your picks, past editions and clippings live in your browser.
 - **Shareable papers.** Every paper is a link. Anyone who opens it gets the same paper with today's news.
 - **Clippings.** Cut stories out of any edition into a scrapbook.
+- **Night edition.** A dark theme printed in negative. It follows your system setting until you pick one.
+- **Print it.** Printing, or saving as PDF, gives you a real three-column newspaper page.
+- **Local weather.** An opt-in weather "ear" beside the nameplate, from Open-Meteo.
+- **Works offline.** Installable as an app. Today's edition and your scrapbook open without a connection.
 - **Calendar reminders.** One click downloads a recurring `.ics` reminder that matches your frequency.
 - **Costs $0 to run.** It's a static site, and the headlines are refreshed by a scheduled GitHub Action.
 
@@ -23,9 +27,11 @@ Pick your interests from 40+ topic chips, or type in anything else: a team, a pe
 | --- | --- |
 | ![A personal front page with a banner lead story, newspaper columns and a countdown to the next edition](docs/images/front-page.png) | ![Clipped stories pinned up as taped cut-outs with pinking-shear edges](docs/images/scrapbook.png) |
 
-| The builder | On a phone |
+| The builder | Night edition |
 | --- | --- |
-| ![The kinetic headline "The latest on your Mars missions." above the topic builder and live preview](docs/images/home.png) | <img src="docs/images/phone.png" alt="The home page on a phone" width="260"> |
+| ![The kinetic headline "The latest on your Mars missions." above the topic builder and live preview](docs/images/home.png) | ![The same front page printed in negative: light ink on dark paper](docs/images/night.png) |
+
+<p align="center"><img src="docs/images/phone.png" alt="The home page on a phone" width="300"></p>
 
 ## How it works
 
@@ -83,13 +89,15 @@ The motion is part of the design, and every piece of it respects `prefers-reduce
 | --- | --- | --- |
 | First load | The nameplate stamps in, the double rule prints across, and the banner headline rises line by line. | CSS keyframes |
 | Kinetic headline | "The latest on your ___" flips through real interests. Clicking the word adds that topic. | React + CSS 3D flips |
-| Live ticker | Today's top stories loop in a wire-style band that pauses on hover. | CSS marquee over `ticker.json` |
+| Live ticker | A wire-style band of Tech, Sports, Entertainment and Science headlines, or your own beats once you have a paper. It pauses on hover. | CSS marquee |
 | Picking a topic | Its metal-type chip flies on an arc into the live preview, which re-typesets: the lead slams in and stories print in reading order. | Web Animations API (`src/lib/fly.ts`) |
 | Frequency | Rubber stamps thunk down in red ink when selected. | CSS |
 | Print my edition | A printing press: rollers spin, the press shudders, your front page feeds out, and a PRINTED! stamp lands. You can skip it. | `PressOverlay.tsx` |
 | Changing pages | Pages turn like a newspaper, from the right going forward and from the left going back, with the masthead anchored. | React `<ViewTransition>` |
 | Scrolling | A compact masthead slides in, a giant outlined banner scrubs sideways, and sections rise into view. | CSS scroll timelines |
 | Reader | The edition unfolds from the top fold. A countdown "ear" shows the next edition, and past editions sit in "The morgue". | CSS |
+| Clipping a story | A red dashed cut line draws around it, and a scrap of newsprint flies to the Clippings counter. | Web Animations API |
+| Night edition | The new edition wipes across the page in a circle that grows from the toggle. | View Transitions |
 
 ## Run it locally
 
@@ -103,13 +111,13 @@ Run `npm run fetch-news` any time to refresh the local headlines.
 ## Tests
 
 ```bash
-npm test                                  # 26 unit tests (Vitest)
+npm test                                  # 31 unit tests (Vitest)
 npm run fixtures && npm run build         # build against deterministic sample headlines
-npm run test:e2e                          # 20 browser tests (Playwright, desktop + phone)
+npm run test:e2e                          # 36 browser tests (Playwright, desktop + phone)
 ```
 
-- **Unit tests** cover the logic that's easy to get subtly wrong: edition numbering (including month-end clamping), look-back cutoffs and cross-topic de-duplication, free-text matching priority, share-link encoding, topic aliases, and the clippings store.
-- **Browser tests** run the real flows on desktop and phone sizes: building and printing a paper, the kinetic headline, sample and shared papers, clipping to the scrapbook, and reduced motion. An [axe](https://github.com/dequelabs/axe-core) scan of every page fails on any serious WCAG A/AA violation.
+- **Unit tests** cover the logic that's easy to get subtly wrong: edition numbering (including month-end clamping), look-back cutoffs and cross-topic de-duplication, free-text matching priority, share-link encoding, topic aliases, the clippings store, the ticker mix, and weather codes, units and coordinate rounding.
+- **Browser tests** run the real flows on desktop and phone sizes: building and printing a paper, the kinetic headline, sample and shared papers, clipping to the scrapbook, the ticker, the night edition, print output, weather (with a mocked location and forecast), reading offline, and reduced motion. An [axe](https://github.com/dequelabs/axe-core) scan of every page, in both day and night editions, fails on any serious WCAG A/AA violation.
 - **CI** runs lint, typecheck, unit tests and browser tests on every push and pull request. The deploy happens only if they pass. Scheduled headline refreshes skip the tests, because the code hasn't changed.
 
 `npm run fixtures` overwrites `public/data` with sample headlines. Run `npm run fetch-news` afterward to get real headlines back.
@@ -118,7 +126,7 @@ npm run test:e2e                          # 20 browser tests (Playwright, deskto
 
 1. Push to `main`.
 2. In the repo, go to **Settings → Pages → Build and deployment** and set the source to **GitHub Actions**.
-3. The **Refresh news & deploy** workflow builds and publishes the site at `https://<user>.github.io/personal-newsletter/`. It then re-runs every 6 hours to refresh the headlines. You can also run it by hand from the **Actions** tab.
+3. The **Test & deploy** workflow builds and publishes the site at `https://<user>.github.io/personal-newsletter/`. It then re-runs every 6 hours to refresh the headlines. You can also run it by hand from the **Actions** tab.
 
 You don't need any accounts, API keys, or secrets.
 
