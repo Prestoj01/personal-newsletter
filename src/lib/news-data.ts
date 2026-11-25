@@ -24,10 +24,12 @@ export interface TopicFile {
 
 export const SECTIONS_SLUG = "_sections";
 
-/** data/ticker.json: today's top stories for the scrolling headline band. */
+/** data/ticker.json: a mix of today's top stories across lighter sections, for the scrolling band. */
 export interface TickerFile {
   generatedAt: string;
   headlines: PackedArticle[];
+  /** Section label for each headline, e.g. "Sports" (same order as headlines). */
+  labels?: string[];
 }
 
 /** [title, index into `files`, publishedAt (unix seconds)] */

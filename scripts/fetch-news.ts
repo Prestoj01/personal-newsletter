@@ -11,12 +11,23 @@
 import { XMLParser } from "fast-xml-parser";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { interleaveSections } from "../src/lib/ticker";
 import { ALL_TOPICS, queryFor, topicSlug } from "../src/lib/topics";
 import { SECTIONS_SLUG, WINDOWS, packUrl, type PackedArticle, type SearchFile, type TickerFile, type TopicFile, type Window } from "../src/lib/news-data";
 
 const PER_LIST = 15;
 const CONCURRENCY = 5;
 const OUT_DIR = path.join(process.cwd(), "public", "data");
+
+const sectionUrl = (id: string) => `https://news.google.com/rss/headlines/section/topic/${id}?hl=en-US&gl=US&ceid=US:en`;
+
+/** Sections mixed into the headline ticker (label shown in the band, Google News section id). */
+const TICKER_SECTIONS: [string, string][] = [
+  ["Tech", "TECHNOLOGY"],
+  ["Sports", "SPORTS"],
+  ["Entertainment", "ENTERTAINMENT"],
+  ["Science", "SCIENCE"],
+];
 
 const SECTION_FEEDS = [
   "https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en",
@@ -114,10 +125,14 @@ async function main() {
   await pool(SECTION_FEEDS, async (url) => {
     sections.push(...(await fetchFeed(url, 100).catch(() => [])));
   });
-  const ticker: TickerFile = {
-    generatedAt,
-    headlines: (await fetchFeed(SECTION_FEEDS[0], 24).catch(() => [])).filter((a) => a[0].length <= 110),
-  };
+  // Ticker: interleave a few lighter sections instead of the politics-heavy front page.
+  const tickerSections = await Promise.all(
+    TICKER_SECTIONS.map(async ([label, id]) => ({
+      label,
+      items: (await fetchFeed(sectionUrl(id), 8).catch(() => [])).filter((a) => a[0].length <= 110),
+    })),
+  );
+  const ticker: TickerFile = { generatedAt, ...interleaveSections(tickerSections, 24) };
 
   console.log(`Fetched ${jobs.length - failed}/${jobs.length} topic feeds (${reused} reused from previous data).`);
   if (failed > jobs.length / 3) {

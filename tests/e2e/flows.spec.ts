@@ -80,3 +80,15 @@ test.describe("with reduced motion", () => {
     await expect(mainEdition(page).getByText("No. 1")).toBeVisible();
   });
 });
+
+test("the ticker follows your beats once you have a paper", async ({ page }) => {
+  await page.goto("/");
+  const ticker = page.getByLabel(/headlines/).first();
+  await expect(ticker.getByText("Extra!", { exact: true })).toBeVisible();
+  await expect(ticker.getByText("Sports", { exact: true }).first()).toBeAttached();
+
+  await seedPaper(page, ["NBA", "Coffee"]);
+  await page.goto("/read/");
+  await expect(page.getByLabel("Latest headlines on your beats").getByText("Your beats", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("Latest headlines on your beats").getByText("NBA report", { exact: false }).first()).toBeAttached();
+});

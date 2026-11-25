@@ -46,7 +46,8 @@ async function main() {
   await mkdir(path.join(OUT, "topics"), { recursive: true });
   for (const [slug, file] of files) await writeFile(path.join(OUT, "topics", `${slug}.json`), JSON.stringify(file));
   await writeFile(path.join(OUT, "search.json"), JSON.stringify({ generatedAt, files: slugs, entries } satisfies SearchFile));
-  await writeFile(path.join(OUT, "ticker.json"), JSON.stringify({ generatedAt, headlines: top } satisfies TickerFile));
+  const labels = top.map((_, i) => ["Tech", "Sports", "Entertainment", "Science"][i % 4]);
+  await writeFile(path.join(OUT, "ticker.json"), JSON.stringify({ generatedAt, headlines: top, labels } satisfies TickerFile));
   console.log(`Wrote fixture data for ${files.size} topics to ${path.relative(process.cwd(), OUT)}`);
 }
 
