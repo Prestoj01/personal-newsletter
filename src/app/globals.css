@@ -595,3 +595,60 @@ html.theme-switching::view-transition-new(root) {
     letter-spacing: 0.14em;
   }
 }
+
+/*
+ * Print: just the paper. Day colors on white, no grain or motion (a half-finished typesetting
+ * animation would clip text), three columns, and no story split across pages.
+ */
+@page {
+  size: letter portrait;
+  margin: 0.45in 0.5in;
+}
+@media print {
+  :root,
+  :root[data-theme="night"] {
+    color-scheme: light;
+    --color-paper: #ffffff;
+    --color-surface: #ffffff;
+    --color-ink: #111111;
+    --color-muted: #4a4540;
+    --color-line: #cfc8b8;
+    --color-line-strong: #a89f8e;
+    --color-accent: #b30d28;
+    --color-accent-strong: #8a0a1f;
+  }
+  body::after {
+    display: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  main article {
+    max-width: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  main .edition-columns {
+    column-count: 3;
+    column-gap: 1.5rem;
+  }
+  /* Stories stay whole; sections may flow on, but never leave a header stranded at a column foot. */
+  main .edition-columns > section {
+    break-inside: auto;
+  }
+  main .story {
+    break-inside: avoid;
+  }
+  main .edition-columns h3 {
+    break-after: avoid;
+  }
+  main a {
+    color: inherit;
+    text-decoration: none;
+    background: none;
+  }
+}

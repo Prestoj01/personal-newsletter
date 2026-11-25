@@ -47,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
       </head>
       <body className="flex min-h-full flex-col font-sans">
-        <header className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-header]">
+        <header className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-header] print:hidden">
           <div className="kicker flex items-center justify-between gap-4 py-2 text-[11px] text-muted">
             <span>Vol. I</span>
             <span className="hidden sm:inline">
@@ -73,11 +73,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </nav>
           </div>
         </header>
-        <div className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-ticker]">
+        <div className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-ticker] print:hidden">
           <Ticker />
         </div>
         {/* Compact masthead that slides in once the main one scrolls away (scroll-driven CSS). */}
-        <div className="sticky-masthead fixed inset-x-0 top-0 z-40 border-b-4 border-double border-ink bg-paper/95 backdrop-blur" aria-hidden>
+        <div className="sticky-masthead fixed inset-x-0 top-0 z-40 print:hidden border-b-4 border-double border-ink bg-paper/95 backdrop-blur" aria-hidden>
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
             <Link href="/" transitionTypes={["nav-back"]} tabIndex={-1} className="font-nameplate text-2xl leading-none">
               {APP_NAME}
@@ -95,7 +95,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </div>
         <main className="flex-1">{children}</main>
-        <footer className="mx-auto mt-16 w-full max-w-6xl px-6">
+        <footer className="mx-auto mt-16 w-full max-w-6xl px-6 print:hidden">
           <div className="rule-double" />
           <div className="flex flex-col gap-2 py-6 text-sm text-muted sm:flex-row sm:justify-between">
             <p>

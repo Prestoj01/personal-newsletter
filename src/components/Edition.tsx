@@ -94,7 +94,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
       )}
 
       {/* Everything else, in columns */}
-      <div className="gap-8 pt-5 [column-rule:1px_solid_var(--color-line)] @xl:columns-2 @4xl:columns-3">
+      <div className="edition-columns gap-8 pt-5 [column-rule:1px_solid_var(--color-line)] @xl:columns-2 @4xl:columns-3">
         {sections.map((s) => {
           const articles = s === leadSection ? s.articles.slice(1) : s.articles;
           if (s === leadSection && articles.length === 0) return null;
@@ -127,7 +127,7 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`More on ${s.topic} on Google News`}
-                className="kicker mt-1 inline-block text-[10px] font-semibold text-accent hover:underline"
+                className="kicker mt-1 inline-block text-[10px] font-semibold text-accent hover:underline print:hidden"
               >
                 More on Google News ↗
               </a>
@@ -138,6 +138,10 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
 
       <p className="kicker mt-2 text-center text-xs text-muted" aria-hidden>
         — 30 —
+      </p>
+      {/* Colophon that only appears on paper. */}
+      <p className="kicker mt-3 hidden border-t border-ink pt-2 text-center text-[9px] text-muted print:block">
+        Printed from {APP_NAME} · prestoj01.github.io/personal-newsletter · Headlines via Google News
       </p>
     </article>
   );

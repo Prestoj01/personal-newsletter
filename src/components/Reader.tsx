@@ -108,10 +108,10 @@ export function Reader() {
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_280px] print:block print:max-w-none print:p-0">
       <div>
         {shown.key !== slot.key && (
-          <button onClick={() => setViewing(slot.key)} className="kicker mb-4 text-xs font-semibold text-accent hover:underline">
+          <button onClick={() => setViewing(slot.key)} className="print:hidden kicker mb-4 text-xs font-semibold text-accent hover:underline">
             ← Back to the latest edition
           </button>
         )}
@@ -126,7 +126,7 @@ export function Reader() {
         </div>
       </div>
 
-      <aside className="space-y-6 lg:sticky lg:top-16 lg:self-start">
+      <aside className="space-y-6 lg:sticky lg:top-16 lg:self-start print:hidden">
         {/* The "ear": the box beside a nameplate that tells you when the next edition lands. */}
         <section className="intro-fade border-4 border-double border-ink bg-surface p-5 text-center" style={{ "--d": "300ms" } as React.CSSProperties}>
           <Eyebrow>Next edition rolls off the press</Eyebrow>
@@ -149,7 +149,10 @@ export function Reader() {
           >
             {reminderSaved ? <span className="motion-safe:animate-pop-in">✓ Reminder downloaded</span> : "Add reminders to my calendar"}
           </Button>
-          <ShareButton paper={current} variant="ghost" className="mt-2 w-full" />
+          <Button variant="ghost" size="sm" onClick={() => window.print()} className="mt-2 w-full">
+            Print a paper copy
+          </Button>
+          <ShareButton paper={current} variant="ghost" className="w-full" />
           <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("ghost", "sm", "w-full")}>
             Edit topics or frequency
           </Link>

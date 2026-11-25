@@ -22,7 +22,7 @@ export function ClipButton({ article, topic }: { article: Article; topic: string
       aria-pressed={clipped}
       aria-label={clipped ? `Unclip "${article.title}"` : `Clip "${article.title}" to your scrapbook`}
       title={clipped ? "Remove from clippings" : "Clip this story"}
-      className={`clip-button kicker inline-flex shrink-0 items-center gap-1 text-[10px] font-semibold transition ${
+      className={`clip-button kicker print:hidden inline-flex shrink-0 items-center gap-1 text-[10px] font-semibold transition ${
         clipped ? "text-accent" : "text-muted hover:text-ink focus-visible:text-ink"
       }`}
     >

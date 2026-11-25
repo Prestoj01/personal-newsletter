@@ -104,3 +104,24 @@ test("the night edition is remembered and follows the system until chosen", asyn
   await expect(page.locator("html")).toHaveAttribute("data-theme", "day"); // explicit choice wins
   await ctx.close();
 });
+
+test("printing shows just the paper, in day colors", async ({ page }) => {
+  await seedPaper(page, ["NBA", "Coffee"]);
+  await page.addInitScript(() => {
+    localStorage.setItem("extra-extra:theme", "night");
+    (window as unknown as { printed: number }).printed = 0;
+    window.print = () => void (window as unknown as { printed: number }).printed++;
+  });
+  await page.goto("/read/");
+  await expect(mainEdition(page).getByText("No. 1")).toBeVisible();
+  await page.getByRole("button", { name: "Print a paper copy" }).click();
+  expect(await page.evaluate(() => (window as unknown as { printed: number }).printed)).toBe(1);
+
+  await page.emulateMedia({ media: "print" });
+  for (const chrome of ["header", "aside", "footer"]) await expect(page.locator(chrome).first()).toBeHidden();
+  await expect(mainEdition(page).getByText(/Printed from Extra Extra/)).toBeVisible();
+  await expect(mainEdition(page).getByRole("button", { name: /^Clip "/ }).first()).toBeHidden();
+  // Night edition on screen, but paper prints dark ink on white.
+  const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  expect(bg).toBe("rgb(255, 255, 255)");
+});

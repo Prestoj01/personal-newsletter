@@ -33,7 +33,7 @@ export function SharedPaperView({ paper }: { paper: SharedPaper }) {
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+    <div className="mx-auto grid max-w-6xl gap-8 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_280px] print:block print:max-w-none print:p-0">
       <div>
         {error ? (
           <p className="py-24 text-center text-danger">{error}</p>
@@ -46,7 +46,7 @@ export function SharedPaperView({ paper }: { paper: SharedPaper }) {
         )}
       </div>
 
-      <aside className="space-y-6 lg:sticky lg:top-16 lg:self-start">
+      <aside className="space-y-6 lg:sticky lg:top-16 lg:self-start print:hidden">
         <section
           className="intro-fade border-4 border-double border-ink bg-surface p-5 text-center"
           style={{ "--d": "300ms" } as React.CSSProperties}
@@ -63,6 +63,9 @@ export function SharedPaperView({ paper }: { paper: SharedPaper }) {
             Customize it first
           </Link>
           <ShareButton paper={paper} variant="ghost" className="w-full" />
+          <Button variant="ghost" size="sm" onClick={() => window.print()} className="w-full">
+            Print a paper copy
+          </Button>
         </section>
       </aside>
     </div>
