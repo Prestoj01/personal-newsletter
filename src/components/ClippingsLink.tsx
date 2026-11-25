@@ -12,7 +12,7 @@ export function ClippingsLink({ className = "", tabIndex }: { className?: string
       <span className="sr-only sm:not-sr-only">Clippings</span>
       <span
         data-clippings-target
-        className={`inline-flex min-w-5 items-center justify-center px-1 text-[10px] tabular-nums ${count ? "bg-accent text-white" : "bg-line text-muted"}`}
+        className={`inline-flex min-w-5 items-center justify-center px-1 text-[10px] tabular-nums ${count ? "bg-accent text-on-accent" : "bg-line text-muted"}`}
       >
         {count}
       </span>

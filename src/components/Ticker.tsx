@@ -49,10 +49,10 @@ export function Ticker() {
       className="group relative flex h-10 items-stretch overflow-hidden bg-ink text-paper"
       aria-label={personal ? "Latest headlines on your beats" : "Top headlines right now"}
     >
-      <div className="kicker relative z-10 flex shrink-0 items-center gap-2 bg-accent px-4 text-xs font-semibold text-white">
+      <div className="kicker relative z-10 flex shrink-0 items-center gap-2 bg-accent px-4 text-xs font-semibold text-on-accent">
         <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-75 motion-safe:animate-ping" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+          <span className="absolute inline-flex h-full w-full rounded-full bg-on-accent opacity-75 motion-safe:animate-ping" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-on-accent" />
         </span>
         {personal ? "Your beats" : "Extra!"}
       </div>

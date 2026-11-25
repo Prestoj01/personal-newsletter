@@ -4,12 +4,12 @@ type Variant = "primary" | "press" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg" | "xl";
 
 const VARIANTS: Record<Variant, string> = {
-  primary: "bg-accent text-white hover:bg-accent-strong",
+  primary: "bg-accent text-on-accent hover:bg-accent-strong",
   /** The heavy ink bar used for "go to press" actions. */
   press: "press-button bg-ink text-paper hover:bg-accent",
-  secondary: "border border-ink text-ink hover:bg-ink hover:text-white",
+  secondary: "border border-ink text-ink hover:bg-ink hover:text-paper",
   ghost: "text-accent hover:bg-accent-soft",
-  danger: "border border-danger text-danger hover:bg-danger hover:text-white",
+  danger: "border border-danger text-danger hover:bg-danger hover:text-paper",
 };
 
 const SIZES: Record<Size, string> = {

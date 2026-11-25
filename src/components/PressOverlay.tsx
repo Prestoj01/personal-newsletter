@@ -38,7 +38,7 @@ export function PressOverlay({ topics, frequency, onDone }: Props) {
       role="status"
       aria-live="assertive"
       onClick={onDone}
-      className="press-overlay fixed inset-0 z-[70] flex cursor-pointer flex-col items-center overflow-hidden bg-ink text-paper"
+      className="press-overlay theme-day fixed inset-0 z-[70] flex cursor-pointer flex-col items-center overflow-hidden bg-ink text-paper"
     >
       <span className="sr-only">Printing your edition…</span>
 

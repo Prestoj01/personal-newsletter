@@ -3,7 +3,9 @@ import { Anton, Newsreader, Oswald, UnifrakturCook } from "next/font/google";
 import Link from "next/link";
 import { ClippingsLink } from "@/components/ClippingsLink";
 import { Dateline } from "@/components/Dateline";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Ticker } from "@/components/Ticker";
+import { THEME_BOOT_SCRIPT } from "@/lib/theme";
 import { SOCIAL_CARD_ALT } from "@/lib/brand-images";
 import { APP_NAME, BASE_PATH, GITHUB_URL, SITE_URL } from "@/lib/config";
 import "./globals.css";
@@ -36,7 +38,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${anton.variable} ${oswald.variable} ${unifraktur.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      suppressHydrationWarning // data-theme is set by the boot script before React hydrates
+      className={`${newsreader.variable} ${anton.variable} ${oswald.variable} ${unifraktur.variable} h-full antialiased`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col font-sans">
         <header className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-header]">
           <div className="kicker flex items-center justify-between gap-4 py-2 text-[11px] text-muted">
@@ -57,6 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <span className="sm:hidden">Edition</span>
               </Link>
               <ClippingsLink />
+              <ThemeToggle />
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hidden hover:text-accent sm:inline">
                 GitHub ↗
               </a>
@@ -77,6 +87,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </span>
             <span className="kicker flex items-center gap-5 text-xs">
               <ClippingsLink tabIndex={-1} />
+              <ThemeToggle compact tabIndex={-1} />
               <Link href="/read/" transitionTypes={["nav-forward"]} tabIndex={-1} className="hover:text-accent">
                 My edition →
               </Link>

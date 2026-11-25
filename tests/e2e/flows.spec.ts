@@ -92,3 +92,15 @@ test("the ticker follows your beats once you have a paper", async ({ page }) => 
   await expect(page.getByLabel("Latest headlines on your beats").getByText("Your beats", { exact: true })).toBeVisible();
   await expect(page.getByLabel("Latest headlines on your beats").getByText("NBA report", { exact: false }).first()).toBeAttached();
 });
+
+test("the night edition is remembered and follows the system until chosen", async ({ browser }) => {
+  const ctx = await browser.newContext({ colorScheme: "dark" });
+  const page = await ctx.newPage();
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "night"); // system preference
+  await page.getByRole("button", { name: /day edition/i }).first().click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "day");
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "day"); // explicit choice wins
+  await ctx.close();
+});

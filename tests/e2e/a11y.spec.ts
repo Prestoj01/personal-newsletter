@@ -40,3 +40,21 @@ test("empty reader has no serious accessibility violations", async ({ page }) =>
   await expect(page.getByText("No paper today")).toBeVisible();
   await audit(page);
 });
+
+test.describe("night edition", () => {
+  test.use({ colorScheme: "dark" });
+
+  test("home page has no serious accessibility violations", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "night");
+    await expect(page.locator("[data-fly-target] article")).toBeVisible();
+    await audit(page);
+  });
+
+  test("reader has no serious accessibility violations", async ({ page }) => {
+    await seedPaper(page, ["NBA", "Coffee"]);
+    await page.goto("/read/");
+    await expect(mainEdition(page).getByText("No. 1")).toBeVisible();
+    await audit(page);
+  });
+});
