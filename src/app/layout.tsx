@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Anton, Newsreader, Oswald, UnifrakturCook } from "next/font/google";
 import Link from "next/link";
 import { ClippingsLink } from "@/components/ClippingsLink";
 import { Dateline } from "@/components/Dateline";
+import { InstallButton, OfflineBadge, ServiceWorker } from "@/components/Offline";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Ticker } from "@/components/Ticker";
 import { THEME_BOOT_SCRIPT } from "@/lib/theme";
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(`${SITE_URL}/`),
   title: `${APP_NAME}: a free newspaper about your teams, hobbies and interests`,
   description: DESCRIPTION,
+  manifest: `${BASE_PATH}/manifest.webmanifest`,
   icons: {
     icon: [{ url: `${BASE_PATH}/brand/icon.png`, type: "image/png", sizes: "64x64" }],
     apple: [{ url: `${BASE_PATH}/brand/apple-icon.png`, sizes: "180x180" }],
@@ -34,6 +36,13 @@ export const metadata: Metadata = {
     images: [{ url: "brand/social-card.png", width: 1200, height: 630, alt: SOCIAL_CARD_ALT }],
   },
   twitter: { card: "summary_large_image", images: ["brand/social-card.png"] },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#efe9dc" },
+    { media: "(prefers-color-scheme: dark)", color: "#141311" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -49,7 +58,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col font-sans">
         <header className="mx-auto w-full max-w-6xl px-6 [view-transition-name:site-header] print:hidden">
           <div className="kicker flex items-center justify-between gap-4 py-2 text-[11px] text-muted">
-            <span>Vol. I</span>
+            <span className="flex items-center gap-2">
+              Vol. I <OfflineBadge />
+            </span>
             <span className="hidden sm:inline">
               <Dateline />
             </span>
@@ -95,6 +106,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </div>
         <main className="flex-1">{children}</main>
+        <ServiceWorker />
         <footer className="mx-auto mt-16 w-full max-w-6xl px-6 print:hidden">
           <div className="rule-double" />
           <div className="flex flex-col gap-2 py-6 text-sm text-muted sm:flex-row sm:justify-between">
@@ -103,6 +115,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               story links to its original publisher.
             </p>
             <p className="kicker text-xs">
+              <InstallButton className="mb-2 block font-semibold text-accent hover:underline" />
               Built with Next.js, GitHub Actions &amp; GitHub Pages
               {/* The header hides its GitHub link on phones; it lives here instead. */}
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="mt-2 block text-ink hover:text-accent sm:hidden">

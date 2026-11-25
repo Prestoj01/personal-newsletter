@@ -147,3 +147,33 @@ test("the weather ear shows local weather after you opt in", async ({ browser })
   await expect(mainEdition(page).getByLabel(/^Weather:/)).toBeVisible();
   await ctx.close();
 });
+
+test("today's edition and the scrapbook still open offline", async ({ page, context }) => {
+  await seedPaper(page, ["NBA", "Coffee"]);
+  await page.goto("/read/");
+  await expect(mainEdition(page).getByText("No. 1")).toBeVisible();
+  await mainEdition(page).getByRole("button", { name: /^Clip "/ }).first().click();
+  // Wait for the service worker to install and take control, then warm its cache with a reload.
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    if (!navigator.serviceWorker.controller) await new Promise((r) => navigator.serviceWorker.addEventListener("controllerchange", r, { once: true }));
+  });
+  await page.reload();
+  await expect(mainEdition(page).getByText("No. 1")).toBeVisible();
+
+  await context.setOffline(true);
+  await page.reload();
+  await expect(mainEdition(page).getByText("No. 1")).toBeVisible();
+  await expect(page.getByRole("status").filter({ hasText: "Offline edition" })).toBeVisible();
+  await page.goto("/clippings/");
+  await expect(page.locator("main article")).toHaveCount(1);
+  await context.setOffline(false);
+});
+
+test("the app is installable: manifest and service worker are served", async ({ request }) => {
+  const manifest = await (await request.get("/manifest.webmanifest")).json();
+  expect(manifest).toMatchObject({ name: "Extra Extra", display: "standalone", start_url: "/read/" });
+  const sw = await request.get("/sw.js");
+  expect(sw.ok()).toBe(true);
+  expect(await sw.text()).toContain('const BASE = ""');
+});

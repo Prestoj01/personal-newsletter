@@ -48,12 +48,13 @@ export function Reader() {
     /* eslint-disable react-hooks/set-state-in-effect -- derived from localStorage + fetched headlines */
     if (prefs === undefined) return;
     if (prefs === null) return setState({ kind: "empty" });
-    if (!data) return;
 
     const slot = currentEdition(prefs.frequency, prefs.startedAt);
     let editions = loadEditions();
     const existing = editions.find((e) => e.key === slot.key && e.frequency === prefs.frequency && sameTopics(e.topics, prefs.topics));
-    if (!existing) {
+    // Today's edition is already printed and saved: show it right away (and offline) without waiting for headlines.
+    if (!existing && !data) return;
+    if (!existing && data) {
       // Today is a publish day for this reader (or their first visit since): print the new edition.
       editions = saveEdition({
         key: slot.key,
@@ -66,7 +67,7 @@ export function Reader() {
       });
     }
     setState({ kind: "ready", prefs, slot, editions });
-    setViewing(slot.key);
+    setViewing((v) => v ?? slot.key); // keep an archived edition open if the reader already picked one
     /* eslint-enable react-hooks/set-state-in-effect */
   }, [prefs, data]);
 
@@ -87,7 +88,13 @@ export function Reader() {
     );
   }
 
-  if (error) return <p className="py-24 text-center text-danger">{error}</p>;
+  if (state.kind === "loading" && error) {
+    return (
+      <p className="py-24 text-center text-danger">
+        {typeof navigator !== "undefined" && !navigator.onLine ? "You're offline, and this edition hasn't been printed on this device yet." : error}
+      </p>
+    );
+  }
   if (state.kind === "loading") {
     return (
       <div className="mx-auto max-w-6xl px-6 py-6 lg:pr-[312px]">
