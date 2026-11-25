@@ -125,3 +125,25 @@ test("printing shows just the paper, in day colors", async ({ page }) => {
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   expect(bg).toBe("rgb(255, 255, 255)");
 });
+
+test("the weather ear shows local weather after you opt in", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 1400, height: 900 }, locale: "en-US", permissions: ["geolocation"], geolocation: { latitude: 39.0997, longitude: -94.5786 } });
+  const page = await ctx.newPage();
+  let requested = "";
+  await page.route("https://api.open-meteo.com/**", (route) => {
+    requested = route.request().url();
+    return route.fulfill({
+      json: { current: { temperature_2m: 54.4, weather_code: 2, is_day: 1 }, daily: { temperature_2m_max: [61.2], temperature_2m_min: [44.6] } },
+    });
+  });
+  await seedPaper(page, ["NBA"]);
+  await page.goto("/read/");
+  await mainEdition(page).getByRole("button", { name: /Add your weather/ }).click();
+  const ear = mainEdition(page).getByLabel(/^Weather:/);
+  await expect(ear).toHaveAttribute("aria-label", "Weather: 54°F, Partly cloudy, high 61°, low 45°");
+  expect(requested).toContain("latitude=39.10");
+  // Remembered on the next visit without asking again.
+  await page.reload();
+  await expect(mainEdition(page).getByLabel(/^Weather:/)).toBeVisible();
+  await ctx.close();
+});

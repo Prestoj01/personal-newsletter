@@ -3,6 +3,7 @@ import { moreCoverageUrl, type TopicSection } from "@/lib/edition";
 import { frequencyInfo, type Frequency } from "@/lib/frequency";
 import type { Article } from "@/lib/news-data";
 import { ClipButton } from "./ClipButton";
+import { PriceEar, WeatherEar } from "./Ears";
 import { Story } from "./Story";
 
 function relativeTime(iso: string, now: number): string {
@@ -69,7 +70,16 @@ export function Edition({ sections, frequency, date, number, asOf, inset = false
           <span className="hidden @md:inline">{dateStr}</span>
           <span>{frequencyInfo(frequency).label} edition</span>
         </div>
-        <h2 className="py-2 font-nameplate text-[clamp(2.25rem,11cqi,4.75rem)] leading-none">{APP_NAME}</h2>
+        {/* Nameplate, flanked by "ears" (weather and price) when the page is wide enough. */}
+        <div className="flex items-center justify-center gap-4 py-2 @2xl:justify-between">
+          <div className="hidden @2xl:flex">
+            <WeatherEar />
+          </div>
+          <h2 className="font-nameplate text-[clamp(2.25rem,11cqi,4.75rem)] leading-none">{APP_NAME}</h2>
+          <div className="hidden @2xl:flex">
+            <PriceEar />
+          </div>
+        </div>
         <div className="rule-double" />
         {withNews.length > 0 && (
           <p className="kicker border-b border-ink py-1.5 text-[10px] font-medium @md:text-[11px]">
