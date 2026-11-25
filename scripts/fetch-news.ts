@@ -77,6 +77,17 @@ async function fetchFeed(url: string, limit: number, attempt = 1): Promise<Packe
   }
 }
 
+async function loadPreviousTicker(): Promise<TickerFile | null> {
+  const base = process.env.PREVIOUS_DATA_URL;
+  if (!base) return null;
+  try {
+    const res = await fetch(`${base.replace(/\/$/, "")}/ticker.json`, { signal: AbortSignal.timeout(10000) });
+    return res.ok ? ((await res.json()) as TickerFile) : null;
+  } catch {
+    return null;
+  }
+}
+
 async function loadPrevious(slug: string): Promise<TopicFile | null> {
   const base = process.env.PREVIOUS_DATA_URL;
   if (!base) return null;
@@ -126,11 +137,17 @@ async function main() {
     sections.push(...(await fetchFeed(url, 100).catch(() => [])));
   });
   // Ticker: interleave a few lighter sections instead of the politics-heavy front page.
+  // A section that fails (e.g. rate-limited) keeps its stories from the live ticker instead of vanishing.
+  const previousTicker = await loadPreviousTicker();
   const tickerSections = await Promise.all(
-    TICKER_SECTIONS.map(async ([label, id]) => ({
-      label,
-      items: (await fetchFeed(sectionUrl(id), 8).catch(() => [])).filter((a) => a[0].length <= 110),
-    })),
+    TICKER_SECTIONS.map(async ([label, id]) => {
+      let items = (await fetchFeed(sectionUrl(id), 8).catch(() => [])).filter((a) => a[0].length <= 110);
+      if (items.length === 0 && previousTicker) {
+        items = previousTicker.headlines.filter((_, i) => previousTicker.labels?.[i] === label);
+        console.warn(`  ↺ ticker section ${label} failed; reusing ${items.length} live stories`);
+      }
+      return { label, items };
+    }),
   );
   const ticker: TickerFile = { generatedAt, ...interleaveSections(tickerSections, 24) };
 
